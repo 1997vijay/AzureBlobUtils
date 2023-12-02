@@ -1,9 +1,0 @@
-LICENSE
-setup.py
-AzureBlobUtils/AzureUtils.py
-AzureBlobUtils/__init__.py
-AzureBlobUtils.egg-info/PKG-INFO
-AzureBlobUtils.egg-info/SOURCES.txt
-AzureBlobUtils.egg-info/dependency_links.txt
-AzureBlobUtils.egg-info/requires.txt
-AzureBlobUtils.egg-info/top_level.txt
