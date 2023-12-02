@@ -8,7 +8,7 @@ A brief description of what your package does and its main features.
 
 ## Installation
 
-Install your_package_name from PyPI (recommended) using pip:
+Install azure-blob-utils from PyPI (recommended) using pip:
 
 ```bash
 pip install azure-blob-utils
