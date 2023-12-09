@@ -1,8 +1,8 @@
 # AzureBlobUtils
-[![PyPI version](https://badge.fury.io/py/your-package-name.svg)](https://badge.fury.io/py/your-package-name)
+[![PyPI version](https://badge.fury.io/py/az-strg-utils.svg)](https://badge.fury.io/py/az-strg-utils/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python Versions](https://img.shields.io/pypi/pyversions/your-package-name.svg)](https://pypi.org/project/your-package-name/)
-[![Downloads](https://pepy.tech/badge/your-package-name)](https://pepy.tech/project/your-package-name)
+[![Python Versions](https://img.shields.io/pypi/pyversions/your-package-name.svg)]([https://pypi.org/project/your-package-name/](https://pypi.org/project/az-strg-utils/0.1/))
+[![Downloads](https://pepy.tech/badge/az-strg-utils/0.1)](https://pepy.tech/project/az-strg-utils/0.1)
 
 Package can be used to interact with azure storage account to perform various activities.
 
