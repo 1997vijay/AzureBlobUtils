@@ -3,7 +3,7 @@
 # AzureStorageUtils
 [![PyPI version](https://badge.fury.io/py/azure_strg_utils.svg)](https://badge.fury.io/py/azure_strg_utils/0.1.1)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python Versions](https://img.shields.io/pypi/pyversions/your-package-name.svg)](https://pypi.org/project/azure_strg_utils/0.1.1)
+[![Python Versions](https://img.shields.io/pypi/pyversions/azure_strg_utils.svg)](https://pypi.org/project/azure_strg_utils)
 
 The package facilitates interaction with Azure storage accounts, enabling the execution of a wide range of operations on these accounts.
 
@@ -215,4 +215,16 @@ client.delete_container(all_containers=True)
 ```
 
 ## Contributing
-You are free to download,modify and use the code as you want.
+our contributions to this project are encouraged and valued! You have the autonomy to make modifications directly and merge them without the need for a formal review process.
+You have the freedom to utilize the code in any manner you deem fit. However, please be cautious as any deletion or modification of critical containers or data is not my responsibility.
+To contribute:
+
+    Fork the repository to your GitHub account.
+    Clone the forked repository to your local machine.
+    Create a new branch for your changes: git checkout -b feature/YourFeature
+    Implement your modifications or additions.
+    Commit your changes: git commit -am 'Add new feature'
+    Push the branch to your GitHub repository: git push origin feature/YourFeature
+    Merge your changes directly into the main branch.
+
+Your contributions directly impact the project. Please ensure that your modifications align with the project's goals and standards. Thank you for your valuable contributions!
