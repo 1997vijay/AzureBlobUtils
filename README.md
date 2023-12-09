@@ -76,7 +76,7 @@ Upload single file from specified path file_path into blob/folder,
 client.upload_file(container_name='test',blob_name='raw',file_name='Product_data.csv',file_path='Data_Profiling/data')
 ```
 
-# Upload all file from specified path file_path into blob/folder. Use all_files=True.
+Upload all file from specified path file_path into blob/folder. Use all_files=True.
 ```python
 # upload all file present inside specified folder
 client.upload_file(container_name='test',blob_name='raw',all_files=True,file_path='Data_Profiling/data')
