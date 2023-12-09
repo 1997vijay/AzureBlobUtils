@@ -1,10 +1,9 @@
 # AzureBlobUtils
-[![PyPI version](https://badge.fury.io/py/az-strg-utils.svg)](https://badge.fury.io/py/az-strg-utils/)
+[![PyPI version](https://badge.fury.io/py/your-package-name.svg)](https://badge.fury.io/py/your-package-name)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python Versions](https://img.shields.io/pypi/pyversions/your-package-name.svg)]([https://pypi.org/project/your-package-name/](https://pypi.org/project/az-strg-utils/0.1/))
-[![Downloads](https://pepy.tech/badge/az-strg-utils/0.1)](https://pepy.tech/project/az-strg-utils/0.1)
+[![Python Versions](https://img.shields.io/pypi/pyversions/your-package-name.svg)](https://pypi.org/project/your-package-name/)
 
-Package can be used to interact with azure storage account to perform various activities.
+The package facilitates interaction with Azure storage accounts, enabling the execution of a wide range of operations on these accounts.
 
 ## Installation
 
@@ -19,111 +18,190 @@ pip install AzureBlobUtils
 ```python
 from AzureBlobUtils import AzureStorageUtils
 ```
-Create connection
+### Establish a connection.
+Establish a connection by supplying the connection string to create an instance of AzureStorageUtils.
 ```python
-# provide the connection string
 CONNECTION_STRING=os.getenv('CONNECTION_STRING')
 client=AzureStorageUtils(connection_string=CONNECTION_STRING)
 ```
 
-Returns list of containers
+### Get list of containers.
+Produces a list of containers available within the connected Azure storage account.
+This code snippet utilizes the list_container() method from the AzureStorageUtils instance (client) to retrieve and display the list of containers present in the connected Azure storage account.
 ```python
-# list containers
 container=client.list_container()
 print(container)
 ```
 
-Create a container name 'test'
+### Create a container.
+This code snippet utilizes the create_container() method from the AzureStorageUtils to create a new container named 'test' in the connected Azure storage account.
 ```python
-# create a container
 client.create_container(container_name='test')
 ```
 
-Returns list of folders
+### Get list of folders.
+This code snippet utilizes the list_folders() method from the AzureStorageUtils to retrieve and display the list of folders within the specified container ('test') in the connected Azure storage account.
 ```python
-# list folders 
 folder=client.list_folders(container_name='test')
 print(folder)
 ```
-Returns list of files
+
+### Returns a list of files .
+This code snippet utilizes the list_files() method from the AzureStorageUtils to retrieve and display the list of files within the 'raw' blob or folder, located within the 'test' container in the Azure storage account.
 ```python
-# list files which is present inside a blob/folder
-blob,folder_files=client.list_files(container_name='test',blob_name='raw')
+blob,folder_files=client.list_files(
+    container_name='test',
+    blob_name='raw'
+    )
 print(folder_files)
 ```
 
-Returns pandas dataframe of a file. Use is_dataframe=True .
+### Retrieves a Pandas DataFrame.
+Retrieves a Pandas DataFrame of a file located inside a folder within the Azure storage account by specifying the parameter `is_dataframe=True`.
+This code snippet employs the download_file() method from the AzureStorageUtils to download and convert the 'cars.csv' file, situated within the 'raw' folder of the 'test' container in Azure storage, into a Pandas DataFrame. 
 ```python
-# get pandas dataframe of a file present inside a folder
-df=client.download_file(container_name='test',blob_name='raw',file_name='cars.csv',is_dataframe=True)
+df=client.download_file(
+    container_name='test',
+    blob_name='raw',
+    file_name='cars.csv',
+    is_dataframe=True
+    )
 ```
 
-Download specified file in specific folder. pass the path using "path",
+### Downloads a specified file.
+Downloads a specified file ('sales_data.csv') located in a specific folder ('raw') within the Azure storage account to a designated path using the 'path' parameter.
+This code snippet utilizes the download_file() method from the AzureStorageUtils to download the 'sales_data.csv' file from the 'raw' folder in the 'test' container in Azure storage. It saves the file to the './test' directory on the local system
 ```python
-# download the file in specified folder
-client.download_file(container_name='test',blob_name='raw',file_name='sales_data.csv',path='./test')
+client.download_file(
+    container_name='test',
+    blob_name='raw',
+    file_name='sales_data.csv',
+    path='./test'
+    )
 ```
 
-Download all file which have name starting from 'cust'. pass the path using "path",
+### Downloads files with specific naming pattern.
+This code downloads all files from the 'raw' folder in the 'test' container that match the specified naming pattern (e.g., files with names starting with 'cust' and ending with '.csv'). Modify the file_regex parameter to match your desired naming pattern for file selection.
 ```python
-# download all file which have name starting from 'cust'
-client.download_file(container_name='test',blob_name='raw',path='downloaded',all_files=True,file_regex='cust*.csv')
+client.download_file(
+    container_name='test',
+    blob_name='raw',
+    path='downloaded',
+    all_files=True,
+    file_regex='cust*.csv'
+    )
 ```
 
-Upload single file from specified path file_path into blob/folder,
+### Downloads all files from specific blob/folder.
+This code downloads all files from the 'raw' folder in the 'test' container including the sub directory files.
 ```python
-# upload single file from specified path file_path into blob/folder raw 
-client.upload_file(container_name='test',blob_name='raw',file_name='Product_data.csv',file_path='Data_Profiling/data')
+client.download_file(
+    container_name='test',
+    blob_name='raw',
+    path='downloaded',
+    all_files=True,
+    )
 ```
 
-Upload all file from specified path file_path into blob/folder. Use all_files=True.
+### Uploads a single file to a specific blob/folder.
+This code uses the upload_file() method from the AzureStorageUtils to upload the file 'Product_data.csv' from the 'Data_Profiling/data' directory into the 'raw' blob/folder within the 'test' container. 
 ```python
-# upload all file present inside specified folder
-client.upload_file(container_name='test',blob_name='raw',all_files=True,file_path='Data_Profiling/data')
+client.upload_file(
+    container_name='test',
+    blob_name='raw',
+    file_name='Product_data.csv',
+    file_path='Data_Profiling/data'
+    )
 ```
 
-Upload all file which have name 'cust*' from specified path file_path into blob/folder. Use all_files=True and file_regex='cust*' to pass the file pattern.
+### Uploads all files from a specified path to a blob/folder.
+This code utilizes the upload_file() method from the AzureStorageUtils with the all_files=True parameter. It uploads all files from the 'Data_Profiling/data' directory into the 'raw' blob/folder within the 'test' container. 
 ```python
-# upload all files which have name 'cust*' from specified folder to specified blob
-client.upload_file(container_name='test',blob_name='multi/raw',all_files=True,file_path='data',file_regex='cust*')
+client.upload_file(
+    container_name='test',
+    blob_name='raw',
+    all_files=True,
+    file_path='Data_Profiling/data'
+    )
 ```
 
-Upload all file present inside specified folder.
+### Uploads files with specific naming pattern from a specified path to a blob/folder.
+This code utilizes the upload_file() method from the AzureStorageUtils instance (client) with the all_files=True parameter and the file_regex='cust*' parameter to upload all files matching the 'cust*' pattern from the 'data' directory into the 'multi/raw' blob/folder within the 'test' container. 
 ```python
-# upload all file present inside specified folder
-client.upload_file(container_name='test',blob_name='raw',all_files=True,file_path='Data_Profiling/data')
+client.upload_file(
+    container_name='test',
+    blob_name='multi/raw',
+    all_files=True,
+    file_path='data',
+    file_regex='cust*'
+    )
 ```
 
-Delete all files present inside a blob. Use all_files=True.
+### Uploads all files from a specified folder to a blob/folder.
+This code utilizes the upload_file() method from the AzureStorageUtils with the all_files=True parameter to upload all files from the 'Data_Profiling/data' directory into the 'raw' blob/folder within the 'test' container. 
 ```python
-# delete all files present inside a blob
-client.delete_file(container_name='test',blob_name='raw',all_files=True)
+client.upload_file(
+    container_name='test',
+    blob_name='raw',
+    all_files=True,
+    file_path='Data_Profiling/data'
+    )
 ```
 
-Delete all files present inside a blob which have name "cust*". Use all_files=True and file_regex='cust*' to pass the file pattern.
+### Deletes all files inside a blob.
+This code uses the delete_file() method from the AzureStorageUtils instance (client) with the all_files=True parameter to delete all files contained within the 'raw' blob inside the 'test' container.
 ```python
-# delete all files present inside a blob which have name 
-client.delete_file(container_name='test',blob_name='raw',all_files=True,file_regex='cust*')
+client.delete_file(
+    container_name='test',
+    blob_name='raw',
+    all_files=True
+    )
 ```
 
-Delete single files present inside a blob.
+### Deletes files with with specific naming pattern inside a blob.
+This code utilizes the delete_file() method from the AzureStorageUtils with the all_files=True parameter and the file_regex='cust*' parameter to delete all files inside the 'raw' blob that match the specified pattern ('cust*').
 ```python
-# delete single files present inside a blob
-client.delete_file(container_name='test',blob_name='raw',file_name='Product_data.csv')
+client.delete_file(
+    container_name='test',
+    blob_name='raw',
+    all_files=True,
+    file_regex='cust*'
+    )
 ```
 
-Delete a container name 'test'
+### Deletes a single file inside a blob.
+This code uses the delete_file() method from the AzureStorageUtils instance (client) to delete the 'Product_data.csv' file from the 'raw' blob in the 'test' container. 
 ```python
-# delete a container
+client.delete_file(
+    container_name='test',
+    blob_name='raw',
+    file_name='Product_data.csv'
+    )
+```
+
+### Deletes a container.
+This code uses the delete_container() method from the AzureStorageUtils instance (client) to delete the container named 'test' from the Azure storage account.
+```python
 client.delete_container(container_name='test')
 ```
 
-Delete all containers from the storage account.
+### Deletes all containers from the storage account
+This code utilizes the delete_container() method from the AzureStorageUtils instance (client) with the all_containers=True parameter to delete all containers present in the Azure storage account. Use this cautiously as it will delete all containers and their contents.
 ```python
-# deleate all containers
 client.delete_container(all_containers=True)
 ```
 
 ## Contributing
-You are free to download,modify and use the code as you want.
+Your contributions to this project are encouraged and valued! You have the autonomy to make modifications directly and merge them without the need for a formal review process.
+You have the freedom to utilize the code in any manner you deem fit. However, please be cautious as any deletion or modification of critical containers or data is not my responsibility.
+To contribute:
 
+    - Fork the repository to your GitHub account.
+    - Clone the forked repository to your local machine.
+    - Create a new branch for your changes: git checkout -b feature/YourFeature
+    - Implement your modifications or additions.
+    - Commit your changes: git commit -am 'Add new feature'
+    - Push the branch to your GitHub repository: git push origin feature/YourFeature
+    - Merge your changes directly into the main branch.
+
+Your contributions directly impact the project. Please ensure that your modifications align with the project's goals and standards. Thank you for your valuable contributions!
