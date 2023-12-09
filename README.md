@@ -2,7 +2,6 @@
 [![PyPI version](https://badge.fury.io/py/azure_strg_utils.svg)](https://badge.fury.io/py/azure_strg_utils/0.1.1)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python Versions](https://img.shields.io/pypi/pyversions/your-package-name.svg)](https://pypi.org/project/azure_strg_utils/0.1.1)
-[![Downloads](https://pepy.tech/badge/azure_strg_utils)](https://pepy.tech/project/azure_strg_utils)
 
 The package facilitates interaction with Azure storage accounts, enabling the execution of a wide range of operations on these accounts.
 
