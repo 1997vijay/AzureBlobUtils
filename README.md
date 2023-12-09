@@ -28,11 +28,11 @@ pip install AzureBlobUtils
     * **Upload Specific File**: Uploads a particular file to a container.
     * **Upload all File**: Upload all files to a specified container.
 
-**Delete Operations**:
+* **Delete Operations**:
     * **Delete Single File from Blob**: Removes a specific file from a blob in a container.
     * **Delete Specific File(s) Using Regex**: Deletes files matching a specific pattern from a blob.
     * **Delete Single or All Containers**: Deletes a particular container or all containers within the storage account.
-    
+
 * **File Regex Operations**:
 Apply File Regex: Allows operations such as download, deletion, or upload based on files that match a specific pattern within a blob.
 These operations provide the ability to manage containers, files (blobs), and perform various actions like downloading, uploading, and deleting specific or multiple files based on certain patterns within the Azure storage account. Please use these operations with caution, especially deletion operations, as they might result in permanent data loss.
