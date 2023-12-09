@@ -1,0 +1,13 @@
+LICENSE.txt
+README.md
+pyproject.toml
+setup.cfg
+setup.py
+azure_strg_utils/__init__.py
+azure_strg_utils/azure_strg_utils.py
+azure_strg_utils/version.py
+azure_strg_utils.egg-info/PKG-INFO
+azure_strg_utils.egg-info/SOURCES.txt
+azure_strg_utils.egg-info/dependency_links.txt
+azure_strg_utils.egg-info/requires.txt
+azure_strg_utils.egg-info/top_level.txt
