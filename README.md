@@ -7,7 +7,7 @@ The package facilitates interaction with Azure storage accounts, enabling the ex
 
 ## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install azure_strg_utils.
+Use the package manager [pip](pip install azure_strg_utils) to install azure_strg_utils.
 
 ```bash
 pip install azure_strg_utils
