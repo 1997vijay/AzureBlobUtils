@@ -1,3 +1,41 @@
+"""
+Azure Storage Utils to interect with azure storage services
+
+Dependencies:
+    - pandas: Data manipulation and analysis library
+    - azure-storage-blob: Azure python sdk to intrect with azure storage services
+
+Usage:
+    1. Ensure that you have the required dependencies installed.
+    2. Set up your azure storage connection string or provide them through other means (e.g., environment variables).
+    3. Run the code to intrect with azure storage.
+    4. Below are the activity that we can perform on storage account
+        1. Create container
+        2. List Containers
+        3. List Blobs
+        4. Download single file or specific file or entire blob
+        5. Upload single or specific file
+        6. Delete single or specific file from blob
+        7. Delete single or all containers
+        8. We can apply file regex to download ,delete or upload files that have specific pattern
+
+
+
+    Author Information:
+    Name: Vijay Kumar
+    Date: 8 Dec 2023
+
+Abstract/Description:
+
+This code can be used to intrect with azure storage. It can we used to perform various activity on storage account.
+
+
+Change Log:
+    - 8 Dec 2023: Initial creation.
+    - [Date]: Updated with new data. -- Use this when updated 
+
+"""
+
 from azure.storage.blob import BlobServiceClient,BlobBlock
 from azure.core.exceptions import ServiceRequestError
 import os
@@ -9,7 +47,7 @@ import uuid
 
 
 
-class AzureFileHandler:
+class AzureStorageUtils:
     def __init__(self,connection_string) -> None:
         """Initialize the object with Azure Storage connection string.
 
@@ -34,11 +72,9 @@ class AzureFileHandler:
             List of containers.
         """
 
-        containers_list=[]
         try:
             containers = self._client.list_containers()
-            for container in containers:
-                containers_list.append(container.name)
+            containers_list=[container.name for container in containers]
             return containers_list
         except Exception as e:
             message=f"Error while getting container list!!, {e}"
@@ -55,8 +91,7 @@ class AzureFileHandler:
         try:
             container_client=self._client.get_container_client(container_name)
             blob=container_client.list_blobs()
-            for file in blob:
-                folder_list.append(file.name.split('/')[0])
+            folder_list=[file.name.split('/')[0] for file in blob]
             return list(set(folder_list))
         except Exception as e:
             raise (f"Container not found !!,{e}")
@@ -94,6 +129,7 @@ class AzureFileHandler:
             path (str, optional): Location where the file will be saved. Default is './download'.
             is_dataframe (bool, optional): Return a dataframe without downloading the file. Default is False.
             all_files (bool, optional): download all file present in a blob
+            file_regex (str, optional): You can pass the regex expresion to filter the files
         """
 
         try:
@@ -167,7 +203,7 @@ class AzureFileHandler:
                             with open(f"{full_path}/{file}","wb") as f:
                                 f.write(data)
                                 count=count+1
-
+                print(f'{count} files downloaded from container: {container_name} successfully')
             else:
                 if file_name and not isinstance(file_name, int) and file_name.strip():
                     try:
@@ -183,10 +219,9 @@ class AzureFileHandler:
                             print(f'{file_name} downloaded from container: {container_name} successfully')
                 else:
                     sys.exit('Invalid file name!!')
-            print(f'{count} files downloaded from container: {container_name} successfully')
         except Exception as e:
             message=f'Error while downloading the blob!!,{e}'
-            raise message
+            sys.exit(message)
     
     def upload_file(self,container_name,blob_name,file_path,file_name:str=None,all_files:bool=False,file_regex:str=None):
         """Upload a file from a local directory to Azure Blob Storage.
@@ -199,11 +234,12 @@ class AzureFileHandler:
         Kwargs:
             file_name (str, optional): File name. Default is None.
             all_files (bool, optional): If True, upload all files from the given directory. Default is False.
+            file_regex (str, optional): You can pass the regex expresion to filter the files
         """
-
+        full_path = os.path.join(os.getcwd(),file_path)
         try:
             if all_files:
-                files=os.listdir(file_path)
+                files=os.listdir(full_path)
                 files=self._filter_file(file_regex=file_regex,file_list=files)
                 print(f'Uploading {len(files)} files !!')
 
@@ -247,7 +283,7 @@ class AzureFileHandler:
                     print('Something went wrong!!')
             else:
                 blob_client=self._client.get_blob_client(container=container_name,blob=f"{blob_name}/{file_name}")
-                with open(f"{file_path}/{file_name}","rb") as f:
+                with open(f"{full_path}/{file_name}","rb") as f:
                     data=f.read()
                     result=blob_client.upload_blob(data,overwrite=True)
                     if result['request_id']:
@@ -255,7 +291,7 @@ class AzureFileHandler:
 
         except Exception as e:
             message=f'Error while uploading the file!!,{e}'
-            raise message
+            sys.exit(message)
     
     def delete_file(self,container_name,blob_name,file_name:str=None,all_files:bool=False,file_regex:str=None):
         """Delete files from Azure Blob Storage.
@@ -267,15 +303,14 @@ class AzureFileHandler:
 
         Kwargs:
             all_files (bool, optional): If True, delete all files from the given blob. Default is False.
+            file_regex (str, optional): You can pass the regex expresion to filter the files
         """
 
         try:
             if all_files:
                 blob,file_list=self.list_files(container_name=container_name,blob_name=blob_name)
                 file_list=self._filter_file(file_regex=file_regex,file_list=file_list)
-                sub_folders=[item for item in file_list if '/' in item]
-                if len(sub_folders)!=0:
-                    pass
+
                 for file in file_list:
                     blob_client=self._client.get_blob_client(container=container_name,blob=f"{blob_name}/{file}")
                     blob_client.delete_blob(delete_snapshots='include')
@@ -287,7 +322,7 @@ class AzureFileHandler:
                 print(f'{file_name} deleted from container: {container_name} successfully')
         except Exception as e:
             message=f'Error while deleting the file!!,{e}'
-            raise message
+            sys.exit(message)
         
     def _filter_file(self,file_regex,file_list):
         if file_regex!=None and not isinstance(file_regex, int):
@@ -311,14 +346,13 @@ class AzureFileHandler:
             container_list=self.list_container()
             print(f'Available containers: {container_list}')
         except Exception as e:
-            raise e
+            sys.exit(e)
     
     def delete_container(self,container_name:str=None,all_containers:bool=False):
         """Delete a container from Azure Storage.
 
         Args:
             container_name (str): Name of the container to be deleted.
-
         Kwargs:
             all_container (bool, optional): If True, delete all containers. Default is False.
         """
@@ -342,5 +376,4 @@ class AzureFileHandler:
                 container_list=self.list_container()
                 print(f'Available containers: {container_list}')
         except Exception as e:
-            raise e
-    
+            sys.exit(e)
