@@ -17,7 +17,9 @@ Usage:
         5. Upload single or specific file
         6. Delete single or specific file from blob
         7. Delete single or all containers
-        8. We can apply file regex to download ,delete or upload files that have specific pattern
+        8. Copy from one container to another container in the same storage account.
+        9. Download or Delete based on the date and condition like greater_than, less_than etc.
+        10. We can apply file regex to download ,delete or upload files that have specific pattern
 
 
 
@@ -37,39 +39,39 @@ Change Log:
 """
 
 from azure.storage.blob import BlobServiceClient,BlobBlock
-from azure.core.exceptions import ServiceRequestError
+from datetime import datetime
+from io import BytesIO
+
 import os
 import sys
 import pandas as pd
 import fnmatch
-from io import BytesIO
 import uuid
+import time
+import operator
 
-
-
+      
 class AzureStorageUtils:
     def __init__(self,connection_string) -> None:
-        """Initialize the object with Azure Storage connection string.
-
+        """
+        Initialize the object with Azure Storage connection string.
         Args:
             connection_string (str): Azure storage account connection string.
         """
-
         self.__connection_string=connection_string
 
         if self.__connection_string!='' or self.__connection_string is not None:
             try:
                 self._client=BlobServiceClient.from_connection_string(conn_str=self.__connection_string)
-            except ServiceRequestError as e:
-                raise ServiceRequestError("Error while connecting to blob!!. {e}")
+            except Exception as e:
+                raise e
         else:
             raise ValueError('Invalid connection string!!')
-    
-    def list_container(self):
-        """Get the list of containers present in the storage account.
 
-        Returns:
-            List of containers.
+    def list_container(self):
+        """
+        Get the list of containers present in the storage account.
+        Returns: List of containers.
         """
 
         try:
@@ -77,12 +79,11 @@ class AzureStorageUtils:
             containers_list=[container.name for container in containers]
             return containers_list
         except Exception as e:
-            message=f"Error while getting container list!!, {e}"
-            raise message
+            raise e
     
     def list_folders(self,container_name):
-        """Get the list of blobs/folders present in a container.
-
+        """
+        Get the list of blobs/folders present in a container.
         Returns:
             List of blobs/folders.
         """
@@ -94,11 +95,11 @@ class AzureStorageUtils:
             folder_list=[file.name.split('/')[0] for file in blob]
             return list(set(folder_list))
         except Exception as e:
-            raise (f"Container not found !!,{e}")
+            raise e
     
     def list_files(self,container_name,blob_name):
-        """Get the list of blobs/folders present in a container.
-
+        """
+        Get the list of blobs/folders present in a container.
         Returns:
             List of blobs/folders.
         """
@@ -106,20 +107,18 @@ class AzureStorageUtils:
         try:
             container_client=self._client.get_container_client(container=container_name)
             blob=container_client.list_blobs(name_starts_with=blob_name)
-
             files=[]
             for file in blob:
                 file_name=file.name.replace(f"{blob_name}/",'')
                 if file_name!='' and file_name!=blob_name:
                     files.append(file_name)
-            return blob, files
+            return files
         except Exception as e:
-            message=f"Container not found !!,{e}"
-            raise message
+            raise e
     
     def download_file(self,container_name,blob_name,file_name:str=None,path:str='download',is_dataframe:bool=False,all_files:bool=False,file_regex:str=None):
-        """Download a file/all files from Azure Blob Storage.
-
+        """
+        Download a file/all files from Azure Blob Storage.
         Args:
             container_name (str): Container name.
             blob_name (str): Blob name.
@@ -133,11 +132,11 @@ class AzureStorageUtils:
         """
 
         try:
-            full_path = os.path.join(os.getcwd(),f"{path}/{blob_name}")
-            current_path=full_path
-            if not os.path.exists(full_path):
-                os.makedirs(full_path)
-
+            if not is_dataframe:
+                full_path = os.path.join(os.getcwd(),f"{path}/{blob_name}")
+                current_path=full_path
+                if not os.path.exists(full_path):
+                    os.makedirs(full_path)
             is_data=False
             if is_dataframe:
                 blob_client=self._client.get_blob_client(container=container_name,blob=f"{blob_name}/{file_name}")
@@ -159,7 +158,7 @@ class AzureStorageUtils:
                 return df
             
             elif all_files:
-                blob,file_list=self.list_files(container_name=container_name,blob_name=blob_name)
+                file_list=self.list_files(container_name=container_name,blob_name=blob_name)
                 file_list=self._filter_file(file_regex=file_regex,file_list=file_list)
 
                 count=0
@@ -220,12 +219,11 @@ class AzureStorageUtils:
                 else:
                     sys.exit('Invalid file name!!')
         except Exception as e:
-            message=f'Error while downloading the blob!!,{e}'
-            sys.exit(message)
+            raise e
     
     def upload_file(self,container_name,blob_name,file_path,file_name:str=None,all_files:bool=False,file_regex:str=None):
-        """Upload a file from a local directory to Azure Blob Storage.
-
+        """
+        Upload a file from a local directory to Azure Blob Storage.
         Args:
             container_name (str): Container name.
             blob_name (str): Blob name.
@@ -294,8 +292,8 @@ class AzureStorageUtils:
             sys.exit(message)
     
     def delete_file(self,container_name,blob_name,file_name:str=None,all_files:bool=False,file_regex:str=None):
-        """Delete files from Azure Blob Storage.
-
+        """
+        Delete files from Azure Blob Storage.
         Args:
             container_name (str): Container name.
             blob_name (str): Blob name from which the file will be deleted.
@@ -308,7 +306,7 @@ class AzureStorageUtils:
 
         try:
             if all_files:
-                blob,file_list=self.list_files(container_name=container_name,blob_name=blob_name)
+                file_list=self.list_files(container_name=container_name,blob_name=blob_name)
                 file_list=self._filter_file(file_regex=file_regex,file_list=file_list)
 
                 for file in file_list:
@@ -323,21 +321,238 @@ class AzureStorageUtils:
         except Exception as e:
             message=f'Error while deleting the file!!,{e}'
             sys.exit(message)
+
+    def _comparison_operator(self, comparison):
+            """
+            Returns the comparison operator based on the provided comparison type.
+            Args:
+                comparison (str): The type of comparison operator required. Possible values are:
+                                - 'less_than': Less than comparison operator (<).
+                                - 'less_than_or_equal': Less than or equal to comparison operator (<=).
+                                - 'greater_than': Greater than comparison operator (>).
+                                - 'greater_than_or_equal': Greater than or equal to comparison operator (>=).
+                                - Any other value will return an equal to comparison operator (==).
+            Returns:
+                function: The comparison operator function based on the specified comparison type.
+            """
+            if comparison == 'less_than':
+                return operator.lt
+            elif comparison == 'less_than_or_equal':
+                return operator.le
+            elif comparison == 'greater_than':
+                return operator.gt
+            elif comparison == 'greater_than_or_equal':
+                return operator.ge
+            else:
+                return operator.eq
+    
+    def _conditional_filter(self, container_name, blob_name, creation_date, comparison='less_than', file_regex=None):
+        """
+        Filter files based on certain criteria for deletion from Azure Blob Storage.
+
+        Args:
+            container_name (str): Name of the container in Azure Blob Storage.
+            blob_name (str): Blob name from which the files will be filtered.
+            creation_date (str): Date for comparison in the format '%Y-%m-%d'.
+            comparison (str, optional): The type of comparison for file filtering (default is 'less_than').
+            file_regex (str, optional): The regex expression used to filter the files (default is None).
+
+        Returns:
+            list: A list of files filtered based on the specified criteria.
+
+        Explanation:
+        This method filters files in the Azure Blob Storage based on the specified criteria.
+        It retrieves a list of files from the blob specified by 'blob_name' in the 'container_name'.
+        Then, it compares the creation date of each file with the 'creation_date' using the specified comparison
+        operator (default is 'less_than'), and collects the files that meet the criteria for deletion/download.
+        If 'file_regex' is provided, it further filters the files using the regex pattern.
+        Returns a list of files that satisfy the criteria.
+        """
+        try:
+            if comparison not in ['less_than','less_than_or_equal','greater_than','greater_than_or_equal']:
+                raise ValueError("Invalid comparison operator. Use any one of them ['less_than','less_than_or_equal','greater_than','greater_than_or_equal']")
+            
+            file_list = []
+            creation_date = datetime.strptime(creation_date, '%Y-%m-%d').date()
+
+            container_client = self._client.get_container_client(container=container_name)
+            blob = container_client.list_blobs(name_starts_with=blob_name)
+            comparison_operator = self._comparison_operator(comparison=comparison)
+
+            # Collect files for deletion based on date criteria
+            for file in blob:
+                if comparison_operator(file.creation_time.date(), creation_date):
+                    file_name = file.name.replace(f"{blob_name}/", '')
+                    if file_name != '' and file_name != blob_name:
+                        file_list.append(file_name)
+
+            # Filter files by regex pattern if provided
+            file_list = self._filter_file(file_regex=file_regex, file_list=file_list)
+            return file_list
+        except Exception as e:
+            raise e
         
+    def conditional_operation(self, container_name, blob_name, creation_date, comparison='less_than', file_regex=None,action='download',path='download'):
+            """
+            Perform conditional operations on files in Azure Blob Storage based on specified criteria.
+            Args:
+                container_name (str): The name of the container in Azure Blob Storage.
+                blob_name (str): The specific blob name in the container.
+                creation_date (str): The creation date as a string in 'YYYY-MM-DD' format.
+                comparison (str, optional): The type of comparison operator for date-based deletion.
+                                            Possible values: 'less_than', 'less_than_or_equal',
+                                            'greater_than', 'greater_than_or_equal', or any other value
+                                            (defaults to 'less_than').
+                file_regex (str, optional): Regex pattern to filter files for deletion. Defaults to None.
+                action (str, optional): The action to perform - 'delete' or 'download'. Defaults to 'download'.
+                path (str, optional): The path to download files when action is set to 'download'. Defaults to 'download'.
+
+            Raises:
+                Exception: If an error occurs during file deletion or download, it raises an exception.
+
+            Returns:
+                None: Performs file deletion or downloads files based on the specified action.
+
+            Example:
+                # Delete files older than a specified date
+                client.conditional_operation('my_container', 'folder/subfolder', '2023-01-01', comparison='less_than', action='delete')
+
+                # Download files matching a pattern created after a specific date
+                client.conditional_operation('my_container', 'folder/subfolder', '2023-06-01', comparison='greater_than', file_regex='*.txt', action='download', path='local_folder')
+            """
+            try:
+                count=0
+                file_list=self._conditional_filter(container_name, blob_name, creation_date, comparison, file_regex)
+                
+                if action=='delete':
+                    for file in file_list:
+                        blob_client = self._client.get_blob_client(container=container_name, blob=f"{blob_name}/{file}")
+                        blob_client.delete_blob(delete_snapshots='include')
+                    print(f'{len(file_list)} files deleted from container: {container_name} successfully')
+                else:
+                    full_path = os.path.join(os.getcwd(),f"{path}/{blob_name}")
+                    if not os.path.exists(full_path):
+                        os.makedirs(full_path)
+
+                    for file in file_list:
+                        blob_client=self._client.get_blob_client(container=container_name,blob=f"{blob_name}/{file}")
+                        try:
+                            data=blob_client.download_blob().readall()
+                            is_data=True
+                        except Exception as e:
+                            raise e
+
+                        if is_data:
+                            with open(f"{full_path}/{file}","wb") as f:
+                                f.write(data)
+                                count=count+1
+                print(f'{count} files downloaded from container: {container_name} successfully')
+
+            except Exception as e:
+                message = f'Error while deleting the file!!,{e}'
+                sys.exit(message)
+        
+
     def _filter_file(self,file_regex,file_list):
+        """
+        Filter the list of files based on the provided regex pattern.
+        Args:
+            file_regex (str): The regex expression used to filter the files.
+            file_list (list): List of file names to be filtered.
+        Returns:
+            list: A filtered list of file names based on the regex pattern.
+        """
         if file_regex!=None and not isinstance(file_regex, int):
             file_list = fnmatch.filter(file_list, file_regex)
         else:
             file_list=file_list
         return file_list
+    
+    def copy_blob(self,container_name,blob_name,destination_container,destination_blob,file_name:str=None,all_files:bool=False,file_regex:str=None,abort_after:int=100):
+        """
+        Copy files or specific file from one Azure Blob Storage container to another.
+        
+        Args:
+            container_name (str): Source container name.
+            blob_name (str): Source blob name or pattern to filter files.
+            destination_container (str): Destination container name.
+            destination_blob (str): Destination blob name.
+
+        Kwargs:
+            file_name (str, optional): Specific file name to copy. Default is None.
+            all_files (bool, optional): If True, copy all files from the source blob. Default is False.
+            file_regex (str, optional): Regex pattern to filter files for copying.
+            abort_after (int, optional): Abort the copy after given time (in seconds). Default is 100 seconds.
+
+        Raises:
+            Exception: Raises an exception if an error occurs during the copying process.
+        """
+        try:
+            file_list=self.list_files(container_name,blob_name)
+            file_list=self._filter_file(file_regex,file_list)
+            count=0
+
+            if all_files:
+                for file in file_list:
+                    count=count+1
+                    # source and destination client
+                    source_blob_client=self._client.get_blob_client(container=container_name,blob=f'{blob_name}/{file}')
+                    destination_blob_client=self._client.get_blob_client(container=destination_container,blob=f'{destination_blob}/{file}')
+
+                    # copy file
+                    destination_blob_client.start_copy_from_url(source_url=source_blob_client.url)
+            else:
+                count=count+1
+                # source and destination client
+                source_blob_client=self._client.get_blob_client(container=container_name,blob=f'{blob_name}/{file_name}')
+                destination_blob_client=self._client.get_blob_client(container=destination_container,blob=f'{destination_blob}/{file_name}')
+
+                # copy file
+                destination_blob_client.start_copy_from_url(source_url=source_blob_client.url)
+                if abort_after:
+                    self._abort_copy(blob_client=destination_blob_client,abort_time=abort_after)
+
+            print(f'{count} files copied from container: {container_name}/{blob_name} to {destination_container}/{destination_blob}')
+        except Exception as e:
+            raise e
+        
+    def _abort_copy(self,blob_client,abort_time):
+        """
+        Abort a copy operation for a blob client if it takes longer than a specified duration.
+        Args:
+            blob_client: Blob client object representing the blob to monitor.
+            abort_time (int): Time duration (in seconds) to monitor the copy operation and abort if necessary.
+
+        Raises:
+            Exception: Raises an exception if an error occurs during the abort operation.
+        """
+        try:
+            for i in range(abort_time):
+                status=blob_client.get_blob_properties().copy.status
+                print("Copy status: " + status)
+                if status=='success':
+                    break
+                time.sleep(1)
+
+            if status!='success':
+                props=blob_client.get_blob_properties()
+                print(props.copy.status)
+                copy_id=props.copy.id
+
+                # abort the copy
+                blob_client.abort_copy(copy_id)
+                props = blob_client.get_blob_properties()
+                print(props.copy.status)
+
+        except Exception as e:
+            raise e
 
     def create_container(self,container_name):
-        """Create a container in Azure Storage.
-
+        """
+        Create a container in Azure Storage.
         Args:
             container_name (str): Name of the new container.
         """
-
         try:
             # create containers
             self._client.create_container(container_name)
@@ -349,8 +564,8 @@ class AzureStorageUtils:
             sys.exit(e)
     
     def delete_container(self,container_name:str=None,all_containers:bool=False):
-        """Delete a container from Azure Storage.
-
+        """
+        Delete a container from Azure Storage.
         Args:
             container_name (str): Name of the container to be deleted.
         Kwargs:

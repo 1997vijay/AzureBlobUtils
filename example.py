@@ -1,8 +1,8 @@
 import os
-from AzureBlobUtils.AzureUtils import AzureStorageUtils
+from azure_strg_utils import AzureStorageUtils
 
 
-CONNECTION_STRING=""
+CONNECTION_STRING="DefaultEndpointsProtocol=https;AccountName=adfstorage1140;AccountKey=546RzkYi4oCkyT6TtZzbtieke5ksF12cMMCYlMcufpducNYja69BI9z19zDzDaVG+xbA6InpCbjE+AStXbdNqA==;EndpointSuffix=core.windows.net"
 client=AzureStorageUtils(connection_string=CONNECTION_STRING)
 
 # # list containers
@@ -13,9 +13,12 @@ client=AzureStorageUtils(connection_string=CONNECTION_STRING)
 # folder=client.list_folders(container_name='rawdata')
 # print(folder)
 
-# # list files which is present inside a folder
-# blob,folder_files=client.list_files(container_name='rawdata',blob_name='raw')
-# print(folder_files)
+# list files which is present inside a folder
+folder_files=client.list_files(container_name='rawdata',blob_name='raw')
+#folder_files=client.conditional_operation(container_name='rawdata',blob_name='raw',creation_date='2023-12-15',comparison='greater_than',action='delete')
+
+client.copy_blob(container_name='rawdata',blob_name='raw',destination_container='new-test',destination_blob='raw',file_name='sales_data.csv')
+#client.copy_blob(container_name='rawdata',blob_name='raw',destination_container='new-test',destination_blob='raw',all_files=True,file_regex='c*')
 
 # get pandas dataframe of a file present inside a folder
 # df=client.download_file(container_name='rawdata',blob_name='raw',file_name='cars_new.csv',is_dataframe=True)
@@ -25,7 +28,7 @@ client=AzureStorageUtils(connection_string=CONNECTION_STRING)
 # client.download_file(container_name='rawdata',blob_name='raw',file_name='sales_data.csv',path='./test')
 
 # # download all file which have name starting from 'cust'
-# client.download_file(container_name='rawdata',blob_name='raw',path='downloaded',all_files=True)
+#client.download_file(container_name='rawdata',blob_name='raw',path='downloaded',all_files=True)
 
 # client.download_file(container_name='rawdata',blob_name='multi',path='multi',all_files=True)
 
@@ -36,7 +39,7 @@ client=AzureStorageUtils(connection_string=CONNECTION_STRING)
 # client.upload_file(container_name='rawdata',blob_name='multi/raw',all_files=True,file_path='downloaded/raw',file_regex='cust*')
 
 # # upload all file present inside specified folder
-# client.upload_file(container_name='rawdata',blob_name='raw',all_files=True,file_path='Data_Profiling/data')
+#client.upload_file(container_name='rawdata',blob_name='raw',all_files=True,file_path='download/raw')
 
 # # delete all files present inside a blob
 # client.delete_file(container_name='rawdata',blob_name='raw',all_files=True)
