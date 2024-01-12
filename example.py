@@ -1,14 +1,16 @@
 import os
 from azure_strg_utils import AzureStorageUtils
 import pandas as pd
+from dotenv import load_dotenv
 
+load_dotenv()
+CONNECTION_STRING=os.getenv('CONNECTION_STRING')
 
-CONNECTION_STRING="DefaultEndpointsProtocol=https;AccountName=adfstorage1140;AccountKey=546RzkYi4oCkyT6TtZzbtieke5ksF12cMMCYlMcufpducNYja69BI9z19zDzDaVG+xbA6InpCbjE+AStXbdNqA==;EndpointSuffix=core.windows.net"
 client=AzureStorageUtils(connection_string=CONNECTION_STRING)
 
 # # list containers
-# container=client.list_container()
-# print(container)
+container=client.list_container()
+print(container)
 
 # # # list folders 
 # folder=client.list_blobs(container_name='rawdata')
@@ -58,7 +60,7 @@ client=AzureStorageUtils(connection_string=CONNECTION_STRING)
 # client.delete_file(container_name='rawdata',blob_name='raw',file_name='Product_data.csv')
 
 # # create a container
-client.create_container(container_name='test2')
+#client.create_container(container_name='test2')
 
 # # deleate a container
 # client.delete_container(container_name='test')

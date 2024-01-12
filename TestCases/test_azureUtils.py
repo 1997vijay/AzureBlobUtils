@@ -3,9 +3,14 @@ import pytest
 import pandas as pd
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
+CONNECTION_STRING=os.getenv('CONNECTION_STRING')
+
+
 @pytest.fixture
 def client():
-    CONNECTION_STRING="DefaultEndpointsProtocol=https;AccountName=adfstorage1140;AccountKey=546RzkYi4oCkyT6TtZzbtieke5ksF12cMMCYlMcufpducNYja69BI9z19zDzDaVG+xbA6InpCbjE+AStXbdNqA==;EndpointSuffix=core.windows.net"
     client=AzureStorageUtils(connection_string=CONNECTION_STRING)
     return client
 

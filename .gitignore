@@ -1,2 +1,4 @@
 azurenv/
 azurenvtest/
+
+.env
