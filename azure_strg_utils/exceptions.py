@@ -12,18 +12,40 @@ Change Log:
     - 14 Dec 2023: Initial creation.
 """
 
-class EmptyColumnListError(Exception):
+class CustomError(Exception):
     """
-    Raise when empty column list passed to the class
+    Base class for custom exceptions
     """
-    def __init__(self,message):
-        if message:
-            self.message=message
-        else:
-            self.message=None
+    def __init__(self, message):
+        self.message = message if message else None
     
     def __str__(self) -> str:
-       if self.message:
-           return self.message
+        return str(self.message)
 
 
+class EmptyColumnListError(CustomError):
+    """
+    Raised when an empty column list is passed to the class
+    """
+
+class EmptyFolderError(CustomError):
+    """
+    Raised when an empty column list is passed to the class
+    """
+
+
+class UploadFileError(CustomError):
+    """
+    Raised when an error occurs during file upload
+    """
+
+
+class DeleteFileError(CustomError):
+    """
+    Raised when an error occurs during file deletion
+    """
+
+class ConnectionError(CustomError):
+    """
+    Raised when an error occurs during file deletion
+    """

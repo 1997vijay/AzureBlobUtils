@@ -40,6 +40,7 @@ Change Log:
 
 from azure.storage.blob import BlobServiceClient,BlobBlock
 from datetime import datetime
+from .exceptions import *
 from io import BytesIO
 
 import os
@@ -50,7 +51,9 @@ import uuid
 import time
 import operator
 
-      
+#set the current timestamp
+currentTime=datetime.now()
+
 class AzureStorageUtils:
     def __init__(self,connection_string) -> None:
         """
@@ -73,15 +76,15 @@ class AzureStorageUtils:
         Get the list of containers present in the storage account.
         Returns: List of containers.
         """
-
+        containers_list=[]
         try:
             containers = self._client.list_containers()
             containers_list=[container.name for container in containers]
-            return containers_list
         except Exception as e:
             raise e
+        return containers_list
     
-    def list_folders(self,container_name):
+    def list_blobs(self,container_name):
         """
         Get the list of blobs/folders present in a container.
         Returns:
@@ -93,9 +96,9 @@ class AzureStorageUtils:
             container_client=self._client.get_container_client(container_name)
             blob=container_client.list_blobs()
             folder_list=[file.name.split('/')[0] for file in blob]
-            return list(set(folder_list))
         except Exception as e:
             raise e
+        return list(set(folder_list))
     
     def list_files(self,container_name,blob_name):
         """
@@ -103,18 +106,31 @@ class AzureStorageUtils:
         Returns:
             List of blobs/folders.
         """
-
+        files=[]
         try:
             container_client=self._client.get_container_client(container=container_name)
             blob=container_client.list_blobs(name_starts_with=blob_name)
-            files=[]
             for file in blob:
                 file_name=file.name.replace(f"{blob_name}/",'')
                 if file_name!='' and file_name!=blob_name:
                     files.append(file_name)
-            return files
         except Exception as e:
             raise e
+        return files
+    
+    def _read_file(self,file_name,stream):
+        name, extension = file_name.split('.')
+        extension = extension.lower()
+
+        if extension == 'csv':
+            df = pd.read_csv(stream)
+        elif extension == 'xlsx':
+            df = pd.read_excel(stream)
+        elif extension == 'json':
+            df = pd.read_json(stream)
+        else:
+            raise ValueError(f"Unsupported file format: {extension}")
+        return df
     
     def download_file(self,container_name,blob_name,file_name:str=None,path:str='download',is_dataframe:bool=False,all_files:bool=False,file_regex:str=None):
         """
@@ -141,20 +157,9 @@ class AzureStorageUtils:
             if is_dataframe:
                 blob_client=self._client.get_blob_client(container=container_name,blob=f"{blob_name}/{file_name}")
                 stream = BytesIO()
-                blob_client.download_blob().download_to_stream(stream)
+                blob_client.download_blob().readinto(stream)
                 stream.seek(0)
-
-                name, extension = file_name.split('.')
-                extension = extension.lower()
-
-                if extension == 'csv':
-                    df = pd.read_csv(stream)
-                elif extension == 'xlsx':
-                    df = pd.read_excel(stream)
-                elif extension == 'json':
-                    df = pd.read_json(stream)
-                else:
-                    raise ValueError(f"Unsupported file format: {extension}")
+                df=self._read_file(file_name,stream)
                 return df
             
             elif all_files:
@@ -210,14 +215,14 @@ class AzureStorageUtils:
                         data=blob_client.download_blob().readall()
                         is_data=True
                     except Exception as e:
-                        sys.exit(e)
+                        raise e
 
                     if is_data:
                         with open(f"{full_path}/{file_name}","wb") as f:
                             f.write(data)
-                            print(f'{file_name} downloaded from container: {container_name} successfully')
+                        print(f'{file_name} downloaded from container: {container_name} successfully')
                 else:
-                    sys.exit('Invalid file name!!')
+                    raise ValueError('Invalid file name!!')
         except Exception as e:
             raise e
     
@@ -244,7 +249,7 @@ class AzureStorageUtils:
                 flag=False
                 count=0
                 if len(files)==0:
-                    sys.exit('Empty folder!!')
+                    raise EmptyFolderError('Folder does not contain any files.')
                 else:
                     for file in files:
                         count=count+1
@@ -277,8 +282,7 @@ class AzureStorageUtils:
                                     flag=True
                 if flag:
                     print(f'{len(files)} files uploaded to container: {container_name} successfully')
-                else:
-                    print('Something went wrong!!')
+                    return flag
             else:
                 blob_client=self._client.get_blob_client(container=container_name,blob=f"{blob_name}/{file_name}")
                 with open(f"{full_path}/{file_name}","rb") as f:
@@ -286,10 +290,11 @@ class AzureStorageUtils:
                     result=blob_client.upload_blob(data,overwrite=True)
                     if result['request_id']:
                         print(f'{file_name} uploaded to container: {container_name} successfully')
-
+                        return True
         except Exception as e:
-            message=f'Error while uploading the file!!,{e}'
-            sys.exit(message)
+            message=f'Error while uploading the file. {e}'
+            raise UploadFileError(message)
+            
     
     def delete_file(self,container_name,blob_name,file_name:str=None,all_files:bool=False,file_regex:str=None):
         """
@@ -305,6 +310,7 @@ class AzureStorageUtils:
         """
 
         try:
+            result=False
             if all_files:
                 file_list=self.list_files(container_name=container_name,blob_name=blob_name)
                 file_list=self._filter_file(file_regex=file_regex,file_list=file_list)
@@ -314,13 +320,16 @@ class AzureStorageUtils:
                     blob_client.delete_blob(delete_snapshots='include')
 
                 print(f'{len(file_list)} files deleted from container: {container_name} successfully')
+                result=True
             else:
                 blob_client=self._client.get_blob_client(container=container_name,blob=f"{blob_name}/{file_name}")
                 blob_client.delete_blob(delete_snapshots='include')
                 print(f'{file_name} deleted from container: {container_name} successfully')
+                result=True
         except Exception as e:
             message=f'Error while deleting the file!!,{e}'
-            sys.exit(message)
+            raise DeleteFileError(message)
+        return result
 
     def _comparison_operator(self, comparison):
             """
@@ -379,7 +388,7 @@ class AzureStorageUtils:
             blob = container_client.list_blobs(name_starts_with=blob_name)
             comparison_operator = self._comparison_operator(comparison=comparison)
 
-            # Collect files for deletion based on date criteria
+            # Collect files based on date criteria
             for file in blob:
                 if comparison_operator(file.creation_time.date(), creation_date):
                     file_name = file.name.replace(f"{blob_name}/", '')
@@ -421,33 +430,23 @@ class AzureStorageUtils:
                 client.conditional_operation('my_container', 'folder/subfolder', '2023-06-01', comparison='greater_than', file_regex='*.txt', action='download', path='local_folder')
             """
             try:
-                count=0
                 file_list=self._conditional_filter(container_name, blob_name, creation_date, comparison, file_regex)
                 
                 if action=='delete':
                     for file in file_list:
-                        blob_client = self._client.get_blob_client(container=container_name, blob=f"{blob_name}/{file}")
-                        blob_client.delete_blob(delete_snapshots='include')
+                        self.delete_file(container_name=container_name,blob_name=blob_name,file_name=file)
                     print(f'{len(file_list)} files deleted from container: {container_name} successfully')
-                else:
+
+                elif action=='download':
                     full_path = os.path.join(os.getcwd(),f"{path}/{blob_name}")
                     if not os.path.exists(full_path):
                         os.makedirs(full_path)
 
                     for file in file_list:
-                        blob_client=self._client.get_blob_client(container=container_name,blob=f"{blob_name}/{file}")
-                        try:
-                            data=blob_client.download_blob().readall()
-                            is_data=True
-                        except Exception as e:
-                            raise e
-
-                        if is_data:
-                            with open(f"{full_path}/{file}","wb") as f:
-                                f.write(data)
-                                count=count+1
-                print(f'{count} files downloaded from container: {container_name} successfully')
-
+                        self.download_file(container_name=container_name,blob_name=blob_name,file_name=file,path=full_path)
+                    print(f'{len(file_list)} files downloaded from container: {container_name} successfully')
+                else:
+                    raise ValueError("Not a valid action type. Supported action types are ['download','delete'].")
             except Exception as e:
                 message = f'Error while deleting the file!!,{e}'
                 sys.exit(message)
@@ -468,7 +467,18 @@ class AzureStorageUtils:
             file_list=file_list
         return file_list
     
-    def copy_blob(self,container_name,blob_name,destination_container,destination_blob,file_name:str=None,all_files:bool=False,file_regex:str=None,abort_after:int=100):
+    def copy_blob(self,container_name,
+                  blob_name,
+                  destination_container,
+                  destination_blob,
+                  creation_date:str=None,
+                  comparison:str='less_than',
+                  file_name:str=None,
+                  all_files:bool=False,
+                  file_regex:str=None,
+                  abort_after:int=100,
+                  delete_file:bool=False
+                  ):
         """
         Copy files or specific file from one Azure Blob Storage container to another.
         
@@ -483,36 +493,83 @@ class AzureStorageUtils:
             all_files (bool, optional): If True, copy all files from the source blob. Default is False.
             file_regex (str, optional): Regex pattern to filter files for copying.
             abort_after (int, optional): Abort the copy after given time (in seconds). Default is 100 seconds.
+            delete_file (boolean,optional): Delete the file after copy. Default False.
+
+        Note: Priority will be all_files > creation_date > file_name
 
         Raises:
             Exception: Raises an exception if an error occurs during the copying process.
         """
         try:
-            file_list=self.list_files(container_name,blob_name)
-            file_list=self._filter_file(file_regex,file_list)
-            count=0
-
+            file_status=[]
             if all_files:
+                file_list=self.list_files(container_name,blob_name)
+                file_list=self._filter_file(file_regex,file_list)
+
                 for file in file_list:
-                    count=count+1
                     # source and destination client
                     source_blob_client=self._client.get_blob_client(container=container_name,blob=f'{blob_name}/{file}')
                     destination_blob_client=self._client.get_blob_client(container=destination_container,blob=f'{destination_blob}/{file}')
 
                     # copy file
-                    destination_blob_client.start_copy_from_url(source_url=source_blob_client.url)
+                    result=destination_blob_client.start_copy_from_url(source_url=source_blob_client.url)
+                    if delete_file:
+                        self.delete_file(container_name=container_name,blob_name=blob_name,file_name=file_name)
+                    
+                    fileStatus={
+                        'Status':result['copy_status'],
+                        'File Name':file,
+                        'Copy Id':result['copy_id'],
+                        'Timestamp':currentTime
+                    }
+                    file_status.append(fileStatus)
+                print(f'{len(file_list)} files copied successfully')
+            elif creation_date!=None:
+                file_list=self._conditional_filter(container_name, blob_name, creation_date, comparison, file_regex)
+                for file in file_list:
+                    # source and destination client
+                    source_blob_client=self._client.get_blob_client(container=container_name,blob=f'{blob_name}/{file}')
+                    destination_blob_client=self._client.get_blob_client(container=destination_container,blob=f'{destination_blob}/{file}')
+
+                    # copy file
+                    result=destination_blob_client.start_copy_from_url(source_url=source_blob_client.url)
+                    if delete_file:
+                        self.delete_file(container_name=container_name,blob_name=blob_name,file_name=file_name)
+                    fileStatus={
+                        'Status':result['copy_status'],
+                        'File Name':file,
+                        'Copy Id':result['copy_id'],
+                        'Timestamp':currentTime
+                    }
+                    file_status.append(fileStatus)
+                print(f'{len(file_list)} files copied successfully')
             else:
-                count=count+1
-                # source and destination client
-                source_blob_client=self._client.get_blob_client(container=container_name,blob=f'{blob_name}/{file_name}')
-                destination_blob_client=self._client.get_blob_client(container=destination_container,blob=f'{destination_blob}/{file_name}')
+                if file_name!=None:
+                    # source and destination client
+                    source_blob_client=self._client.get_blob_client(container=container_name,blob=f'{blob_name}/{file_name}')
+                    destination_blob_client=self._client.get_blob_client(container=destination_container,blob=f'{destination_blob}/{file_name}')
 
-                # copy file
-                destination_blob_client.start_copy_from_url(source_url=source_blob_client.url)
-                if abort_after:
-                    self._abort_copy(blob_client=destination_blob_client,abort_time=abort_after)
-
-            print(f'{count} files copied from container: {container_name}/{blob_name} to {destination_container}/{destination_blob}')
+                    # copy and delete the file
+                    result=destination_blob_client.start_copy_from_url(source_url=source_blob_client.url)
+                    if abort_after:
+                        abort_result=self._abort_copy(blob_client=destination_blob_client,abort_time=abort_after)
+                        if abort_result:
+                            if delete_file:
+                                self.delete_file(container_name=container_name,blob_name=blob_name,file_name=file_name)
+                            print(f'{file_name} file copied from container: {container_name}/{blob_name} to {destination_container}/{destination_blob}')
+                        else:
+                            print('Copy operation aborted!!.')
+                            return file_status
+                    fileStatus={
+                        'Status':result['copy_status'],
+                        'File Name':file_name,
+                        'Copy Id':result['copy_id'],
+                        'Timestamp':currentTime
+                    }
+                    file_status.append(fileStatus)
+                else:
+                    raise ValueError('Invalid file name.')
+            return file_status
         except Exception as e:
             raise e
         
@@ -531,7 +588,7 @@ class AzureStorageUtils:
                 status=blob_client.get_blob_properties().copy.status
                 print("Copy status: " + status)
                 if status=='success':
-                    break
+                    return True
                 time.sleep(1)
 
             if status!='success':
@@ -543,7 +600,7 @@ class AzureStorageUtils:
                 blob_client.abort_copy(copy_id)
                 props = blob_client.get_blob_properties()
                 print(props.copy.status)
-
+                return False
         except Exception as e:
             raise e
 
@@ -556,12 +613,11 @@ class AzureStorageUtils:
         try:
             # create containers
             self._client.create_container(container_name)
-
             # list containers
             container_list=self.list_container()
             print(f'Available containers: {container_list}')
         except Exception as e:
-            sys.exit(e)
+            raise e
     
     def delete_container(self,container_name:str=None,all_containers:bool=False):
         """
@@ -591,4 +647,4 @@ class AzureStorageUtils:
                 container_list=self.list_container()
                 print(f'Available containers: {container_list}')
         except Exception as e:
-            sys.exit(e)
+            raise e

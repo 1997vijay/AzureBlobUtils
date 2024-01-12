@@ -1,5 +1,6 @@
 import os
 from azure_strg_utils import AzureStorageUtils
+import pandas as pd
 
 
 CONNECTION_STRING="DefaultEndpointsProtocol=https;AccountName=adfstorage1140;AccountKey=546RzkYi4oCkyT6TtZzbtieke5ksF12cMMCYlMcufpducNYja69BI9z19zDzDaVG+xbA6InpCbjE+AStXbdNqA==;EndpointSuffix=core.windows.net"
@@ -9,16 +10,22 @@ client=AzureStorageUtils(connection_string=CONNECTION_STRING)
 # container=client.list_container()
 # print(container)
 
-# # list folders 
-# folder=client.list_folders(container_name='rawdata')
+# # # list folders 
+# folder=client.list_blobs(container_name='rawdata')
 # print(folder)
 
-# list files which is present inside a folder
-folder_files=client.list_files(container_name='rawdata',blob_name='raw')
-#folder_files=client.conditional_operation(container_name='rawdata',blob_name='raw',creation_date='2023-12-15',comparison='greater_than',action='delete')
+# # list files which is present inside a folder
+# folder_files=client.list_files(container_name='rawdata',blob_name='raw')
+# print(folder_files)
 
-client.copy_blob(container_name='rawdata',blob_name='raw',destination_container='new-test',destination_blob='raw',file_name='sales_data.csv')
+#folder_files=client.conditional_operation(container_name='rawdata',blob_name='raw',creation_date='2023-12-15',comparison='greater_than',action='download',file_regex='c*')
+#folder_files=client.conditional_operation(container_name='rawdata',blob_name='raw',creation_date='2023-12-15',comparison='greater_than',action='download')
+
+#client.copy_blob(container_name='rawdata',blob_name='raw',destination_container='new-test',destination_blob='raw',file_name='Non_sales_data.csv')
 #client.copy_blob(container_name='rawdata',blob_name='raw',destination_container='new-test',destination_blob='raw',all_files=True,file_regex='c*')
+# status=client.copy_blob(container_name='rawdata',blob_name='raw',destination_container='rawdata',destination_blob='test',all_files=True)
+# print(type(status))
+#client.copy_blob(container_name='rawdata',blob_name='raw',destination_container='new-test',destination_blob='raw',creation_date='2023-12-15',comparison='greater_than',file_regex='c*')
 
 # get pandas dataframe of a file present inside a folder
 # df=client.download_file(container_name='rawdata',blob_name='raw',file_name='cars_new.csv',is_dataframe=True)
@@ -51,7 +58,7 @@ client.copy_blob(container_name='rawdata',blob_name='raw',destination_container=
 # client.delete_file(container_name='rawdata',blob_name='raw',file_name='Product_data.csv')
 
 # # create a container
-# client.create_container(container_name='test')
+client.create_container(container_name='test2')
 
 # # deleate a container
 # client.delete_container(container_name='test')
