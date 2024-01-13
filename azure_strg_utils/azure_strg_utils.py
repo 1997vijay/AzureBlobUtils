@@ -225,7 +225,45 @@ class AzureStorageUtils:
                     raise ValueError('Invalid file name!!')
         except Exception as e:
             raise e
-    
+
+    def _upload_file_chunks(self,blob_client,full_path,file_name):
+        """
+        Upload a large file to a blob in chunks.
+        Args:
+            blob_client (azure.storage.blob.aio.blobclient.AioBlobClient):
+                The blob client for the destination blob.
+            full_path (str):
+                The full local path to the file to be uploaded.
+            file_name (str):
+                The name of the file to be uploaded.
+        Returns:
+            dict:
+                A dictionary containing information about the uploaded file.
+
+        Raises:
+            UploadFileError:
+                Raised if an error occurs during the file upload process.
+        Note:
+            This function is designed for uploading large files in smaller chunks to Azure Blob Storage.
+        """
+        import uuid
+        try:
+            # upload data
+            block_list=[]
+            chunk_size=1024*1024*4
+            with open(f"{full_path}/{file_name}","rb") as f:
+                while True:
+                    read_data = f.read(chunk_size)
+                    if not read_data:
+                        break # done
+                    blk_id = str(uuid.uuid4())
+                    blob_client.stage_block(block_id=blk_id,data=read_data) 
+                    block_list.append(BlobBlock(block_id=blk_id))
+            result=blob_client.commit_block_list(block_list)
+            return result
+        except BaseException as err:
+            raise UploadFileError(f'Error while uploading the file.,{err}')
+
     def upload_file(self,container_name,blob_name,file_path,file_name:str=None,all_files:bool=False,file_regex:str=None):
         """
         Upload a file from a local directory to Azure Blob Storage.
@@ -241,6 +279,7 @@ class AzureStorageUtils:
         """
         full_path = os.path.join(os.getcwd(),file_path)
         try:
+            file_status=[]
             if all_files:
                 files=os.listdir(full_path)
                 files=self._filter_file(file_regex=file_regex,file_list=files)
@@ -254,43 +293,37 @@ class AzureStorageUtils:
                     for file in files:
                         count=count+1
                         print(f'{count}/{len(files)} done.',end='\r')
+
+                        # get the file size
                         file_stats = os.stat(file_path+'/'+file)
                         file_size=round(file_stats.st_size / (1024 * 1024),2)
 
+                        # get blob client and upload file
                         blob_client=self._client.get_blob_client(container=container_name,blob=f"{blob_name}/{file}")
+                        result=self._upload_file_chunks(blob_client,full_path,file)
 
-                        # send large file in chunk of 100 MB
-                        if file_size>200:
-                                block_list=[]
-                                chunk_size=1024*1024*100
+                        # append extra info in result dict
+                        result['File Name']=file
+                        result['Upload Timestamp']=currentTime
+                        result['File Size(MB)']=file_size
+                        file_status.append(result)
 
-                                with open(f"{file_path}/{file}","rb") as f:
-
-                                    while True:
-                                        read_data = f.read(chunk_size)
-                                        if not read_data:
-                                            break
-                                        blk_id = str(uuid.uuid4())
-                                        blob_client.stage_block(block_id=blk_id,data=read_data)
-                                        block_list.append(BlobBlock(block_id=blk_id))
-                                blob_client.commit_block_list(block_list)
-                        else:
-                            with open(f"{file_path}/{file}","rb") as f:
-                                data=f.read()
-                                result=blob_client.upload_blob(data,overwrite=True)
-                                if result['request_id']:
-                                    flag=True
-                if flag:
-                    print(f'{len(files)} files uploaded to container: {container_name} successfully')
-                    return flag
+                print(f'{len(files)} files uploaded to container: {container_name} successfully')
             else:
+                # get the file size
+                file_stats = os.stat(file_path+'/'+file)
+                file_size=round(file_stats.st_size / (1024 * 1024),2)
+
+                # get client and uplaod file
                 blob_client=self._client.get_blob_client(container=container_name,blob=f"{blob_name}/{file_name}")
-                with open(f"{full_path}/{file_name}","rb") as f:
-                    data=f.read()
-                    result=blob_client.upload_blob(data,overwrite=True)
-                    if result['request_id']:
-                        print(f'{file_name} uploaded to container: {container_name} successfully')
-                        return True
+                result=self._upload_file_chunks(blob_client,full_path,file_name)
+
+                result['File Name']=file
+                result['Upload Timestamp']=currentTime
+                result['File Size(MB)']=file_size
+                file_status.append(result)
+
+            return file_status
         except Exception as e:
             message=f'Error while uploading the file. {e}'
             raise UploadFileError(message)
@@ -603,6 +636,55 @@ class AzureStorageUtils:
                 return False
         except Exception as e:
             raise e
+
+    def _save_dataframe(self,file_content,dataframe,format):
+        """
+        Save a Pandas DataFrame to a specified file format.
+
+        Args:
+            file_content (io.BytesIO): A BytesIO object to store the content of the file.
+            dataframe (pd.DataFrame): The Pandas DataFrame to be saved.
+            format (str): The desired file format ('csv', 'json', or 'xml').
+
+        Raises:
+            Exception: If an error occurs during the saving process.
+        """
+        try:
+            if format=='csv':
+                dataframe.to_csv(file_content,index=False)
+            elif format=='json':
+                dataframe.to_json(file_content,orient='records')
+            elif format=='xml':
+                dataframe.to_xml(file_content)
+            else:
+                dataframe.to_csv(file_content,index=False)
+        except Exception as e:
+            raise e
+
+    def upload_dataframe(self,dataframe,file_name,container_name,blob_name):
+        """
+        Uploads a Pandas DataFrame to Azure Blob Storage.
+
+        Args:
+            dataframe (pd.DataFrame): The Pandas DataFrame to be uploaded.
+            file_name (str): The name of the file to be created in the blob storage.
+            container_name (str): The name of the Azure Blob Storage container.
+            blob_name (str): The name of the blob within the specified container.
+        Raises:
+            Exception: If an error occurs during the uploading process.
+        """
+        try:
+            format=file_name.split(".")[-1]
+            if isinstance(dataframe,pd.DataFrame):
+                print('Uploading the dataframe.')
+                file_content = BytesIO()
+                self._save_dataframe(file_content,dataframe,format)
+                file_content.seek(0)
+                blob_client=self._client.get_blob_client(container=container_name,blob=f"{blob_name}/{file_name}")
+                result=blob_client.upload_blob(data=file_content,overwrite=True)
+                return result
+        except Exception as e:
+            raise e    
 
     def create_container(self,container_name):
         """
