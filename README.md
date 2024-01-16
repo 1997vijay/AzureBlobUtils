@@ -12,7 +12,7 @@ The package facilitates interaction with Azure storage accounts, enabling the ex
 Use the package manager `pip` to install azure_strg_utils.
 
 ```bash
-pip install azure_strg_utils
+pip install azure-strg-utils
 ```
 
 ## Usage
