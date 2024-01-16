@@ -1,3 +1,25 @@
+Metadata-Version: 2.1
+Name: azure-strg-utils
+Version: 0.1
+Summary: The package facilitates interaction with Azure storage accounts, enabling the execution of a wide range of operations on these accounts.
+Home-page: https://github.com/1997vijay/AzureBlobUtils.git
+Author: Vijay Kumar
+Author-email: vijay.kumar.1997@outlook.com
+License: MIT
+Keywords: azure,storage,blob,container
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+
 # Package is under development, however you can download the wheel file and use it.
 
 # AzureStorageUtils
@@ -70,9 +92,9 @@ print(folder)
 ```
 
 ### Returns a list of files .
-This code snippet utilizes the list_blob() method from the AzureStorageUtils to retrieve and display the list of files within the 'raw' blob or folder, located within the 'test' container in the Azure storage account.
+This code snippet utilizes the list_files() method from the AzureStorageUtils to retrieve and display the list of files within the 'raw' blob or folder, located within the 'test' container in the Azure storage account.
 ```python
-blob,folder_files=client.list_blob(
+blob,folder_files=client.list_files(
     container_name='test',
     blob_name='raw'
     )
@@ -199,79 +221,6 @@ client.delete_file(
     container_name='test',
     blob_name='raw',
     file_name='Product_data.csv'
-    )
-```
-
-### Conditional operation.
-We can use conditional_operation() method to perform download/delete operation on blob.
-Supported action are `download` and `delete` and we can pass any comparision like 'less_than','less_than_or_equal','greater_than',and 'greater_than_or_equal'.
-```python
-
-# download all files which have creation date greater than 2023-12-15
-client.conditional_operation(
-    container_name='rawdata',
-    blob_name='raw',
-    creation_date='2023-12-15',
-    comparison='greater_than',
-    action='download',
-    path='data') 
-
-# delete all files which have creation date less than 2023-12-15
-client.conditional_operation(
-    container_name='rawdata',
-    blob_name='raw',
-    creation_date='2023-12-15',
-    comparison='less_than',
-    action='delete') 
-
-# delete all files which have creation date less than 2023-12-15 and file name starts with c*
-client.conditional_operation(
-    container_name='rawdata',
-    blob_name='raw',
-    creation_date='2023-12-15',
-    comparison='less_than',
-    action='delete',
-    file_regex='c*')  
-```
-
-### Copy the file.
-Use copy_blob() method to copy single or multiple files from one container to another container within same storage account.
-We can pass any operator as well.
-```python
-
-# copy all files which have creation date greater than 2023-12-15 from rawdata to new-test container
-client.copy_blob(
-    container_name='rawdata',
-    blob_name='raw',
-    destination_container='new-test',
-    destination_blob='raw',
-    creation_date='2023-12-15',
-    comparison='greater_than'
-)
-
-# copy all files which have creation date greater than 2023-12-15 from rawdata to new-test container and file name starts with c*
-# and delete the file after copy.
-client.copy_blob(
-    container_name='rawdata',
-    blob_name='raw',
-    destination_container='new-test',
-    destination_blob='raw',
-    creation_date='2023-12-15',
-    comparison='greater_than',
-    file_regex='c*',
-    delete_file=True
-)
-
-```
-### Save pandas dataframe.
-Use upload_dataframe() method to save the daatframe in blob. Supported format are XML,CSV and JSON.
-```python
-# upload the dataframe to blob test in xml format.
-client.upload_dataframe(
-    dataframe=df,
-    file_name='cars.xml',
-    container_name='rawdata',
-    blob_name='test'
     )
 ```
 

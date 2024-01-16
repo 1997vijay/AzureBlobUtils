@@ -2,3 +2,4 @@ azurenv/
 azurenvtest/
 
 .env
+.pytest_cache

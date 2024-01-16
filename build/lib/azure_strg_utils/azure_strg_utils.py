@@ -387,7 +387,7 @@ class AzureStorageUtils:
             else:
                 return operator.eq
     
-    def conditional_filter(self, container_name, blob_name, creation_date, comparison='less_than', file_regex=None):
+    def _conditional_filter(self, container_name, blob_name, creation_date, comparison='less_than', file_regex=None):
         """
         Filter files based on certain criteria for deletion from Azure Blob Storage.
 
@@ -433,14 +433,7 @@ class AzureStorageUtils:
         except Exception as e:
             raise e
         
-    def conditional_operation(self, 
-                              container_name, 
-                              blob_name, 
-                              creation_date, 
-                              comparison='less_than', 
-                              file_regex=None,
-                              action='download',
-                              path='download'):
+    def conditional_operation(self, container_name, blob_name, creation_date, comparison='less_than', file_regex=None,action='download',path='download'):
             """
             Perform conditional operations on files in Azure Blob Storage based on specified criteria.
             Args:
@@ -469,7 +462,7 @@ class AzureStorageUtils:
                 client.conditional_operation('my_container', 'folder/subfolder', '2023-06-01', comparison='greater_than', file_regex='*.txt', action='download', path='local_folder')
             """
             try:
-                file_list=self.conditional_filter(container_name, blob_name, creation_date, comparison, file_regex)
+                file_list=self._conditional_filter(container_name, blob_name, creation_date, comparison, file_regex)
                 
                 if action=='delete':
                     for file in file_list:
@@ -555,13 +548,16 @@ class AzureStorageUtils:
                     if delete_file:
                         self.delete_file(container_name=container_name,blob_name=blob_name,file_name=file_name)
                     
-                    # append extra info in result dict
-                    result['File Name']=file
-                    result['Timestamp']=currentTime
-                    file_status.append(result)
+                    fileStatus={
+                        'Status':result['copy_status'],
+                        'File Name':file,
+                        'Copy Id':result['copy_id'],
+                        'Timestamp':currentTime
+                    }
+                    file_status.append(fileStatus)
                 print(f'{len(file_list)} files copied successfully')
             elif creation_date!=None:
-                file_list=self.conditional_filter(container_name, blob_name, creation_date, comparison, file_regex)
+                file_list=self._conditional_filter(container_name, blob_name, creation_date, comparison, file_regex)
                 for file in file_list:
                     # source and destination client
                     source_blob_client=self._client.get_blob_client(container=container_name,blob=f'{blob_name}/{file}')
@@ -571,11 +567,13 @@ class AzureStorageUtils:
                     result=destination_blob_client.start_copy_from_url(source_url=source_blob_client.url)
                     if delete_file:
                         self.delete_file(container_name=container_name,blob_name=blob_name,file_name=file_name)
-
-                    # append extra info in result dict
-                    result['File Name']=file
-                    result['Timestamp']=currentTime
-                    file_status.append(result)
+                    fileStatus={
+                        'Status':result['copy_status'],
+                        'File Name':file,
+                        'Copy Id':result['copy_id'],
+                        'Timestamp':currentTime
+                    }
+                    file_status.append(fileStatus)
                 print(f'{len(file_list)} files copied successfully')
             else:
                 if file_name!=None:
@@ -594,11 +592,13 @@ class AzureStorageUtils:
                         else:
                             print('Copy operation aborted!!.')
                             return file_status
-                        
-                    # append extra info in result dict
-                    result['File Name']=file
-                    result['Timestamp']=currentTime
-                    file_status.append(result)
+                    fileStatus={
+                        'Status':result['copy_status'],
+                        'File Name':file_name,
+                        'Copy Id':result['copy_id'],
+                        'Timestamp':currentTime
+                    }
+                    file_status.append(fileStatus)
                 else:
                     raise ValueError('Invalid file name.')
             return file_status
