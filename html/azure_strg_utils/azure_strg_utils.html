@@ -1,0 +1,2987 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>azure_strg_utils.azure_strg_utils API documentation</title>
+<meta name="description" content="Azure Storage Utils facilitates interaction with Azure Storage services, offering a versatile set of functionalities.
+It enables users to perform …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>azure_strg_utils.azure_strg_utils</code></h1>
+</header>
+<section id="section-intro">
+<p>Azure Storage Utils facilitates interaction with Azure Storage services, offering a versatile set of functionalities.
+It enables users to perform various operations on storage accounts, including uploading, downloading, deleting, and copying files with ease.</p>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li>pandas: Data manipulation and analysis library.</li>
+<li>azure-storage-blob: Azure python sdk to intrect with azure storage services.</li>
+<li>fnmatch: This module is used for matching Unix shell-style wildcards.</li>
+</ul>
+<h2 id="usage">Usage</h2>
+<ol>
+<li>Ensure that you have the required dependencies installed.</li>
+<li>Set up your azure storage connection string or provide them through other means (e.g., environment variables).</li>
+<li>Run the code to intrect with azure storage.</li>
+<li>Below are the activity that we can perform on storage account<ol>
+<li>Create container</li>
+<li>List Containers</li>
+<li>List Blobs</li>
+<li>Download single file or specific file or entire blob</li>
+<li>Upload single or specific file</li>
+<li>Delete single or specific file from blob</li>
+<li>Delete single or all containers</li>
+<li>Copy from one container to another container in the same storage account.</li>
+<li>Download or Delete based on the date and condition like greater_than, less_than etc.</li>
+<li>We can apply file regex to download ,delete or upload files that have specific pattern.</li>
+<li>Upload Pandas dataframe to blob.</li>
+</ol>
+</li>
+</ol>
+<p>Author Information:</p>
+<ul>
+<li>
+<p>Name: Vijay Kumar</p>
+</li>
+<li>
+<p>Email: vijay.kumar.1997@outlook.com</p>
+</li>
+<li>
+<p>Github: <a href="https://github.com/1997vijay/AzureStorageUtils">https://github.com/1997vijay/AzureStorageUtils</a></p>
+</li>
+</ul>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+Azure Storage Utils facilitates interaction with Azure Storage services, offering a versatile set of functionalities. 
+It enables users to perform various operations on storage accounts, including uploading, downloading, deleting, and copying files with ease.
+
+Dependencies:
+    - pandas: Data manipulation and analysis library.
+    - azure-storage-blob: Azure python sdk to intrect with azure storage services.
+    - fnmatch: This module is used for matching Unix shell-style wildcards.
+
+Usage:
+    1. Ensure that you have the required dependencies installed.
+    2. Set up your azure storage connection string or provide them through other means (e.g., environment variables).
+    3. Run the code to intrect with azure storage.
+    4. Below are the activity that we can perform on storage account
+        1. Create container
+        2. List Containers
+        3. List Blobs
+        4. Download single file or specific file or entire blob
+        5. Upload single or specific file
+        6. Delete single or specific file from blob
+        7. Delete single or all containers
+        8. Copy from one container to another container in the same storage account.
+        9. Download or Delete based on the date and condition like greater_than, less_than etc.
+        10. We can apply file regex to download ,delete or upload files that have specific pattern.
+        11. Upload Pandas dataframe to blob.
+
+Author Information:
+    \n - Name: Vijay Kumar
+    \n - Email: vijay.kumar.1997@outlook.com
+    \n - Github: https://github.com/1997vijay/AzureStorageUtils
+
+&#34;&#34;&#34;
+
+from azure.storage.blob import BlobServiceClient,BlobBlock
+from datetime import datetime
+from io import BytesIO
+
+import os
+import pandas as pd
+import uuid
+
+from . import utils
+from .exceptions import *
+
+#set the current timestamp
+currentTime=datetime.now()
+
+class AzureStorageUtils:
+    def __init__(self,connection_string) -&gt; None:
+        &#34;&#34;&#34;
+        Initialize the object with Azure Storage connection string.
+
+        \n Args:
+            - connection_string (str): Azure storage account connection string.
+
+        \n Example:
+            &gt;&gt;&gt; connection_str = &#34;your_azure_storage_connection_string&#34;
+            &gt;&gt;&gt; client = AzureStorageUtils(connection_str)
+        &#34;&#34;&#34;
+        self.__connection_string=connection_string
+
+        if self.__connection_string!=&#39;&#39; or self.__connection_string is not None:
+            try:
+                self._client=BlobServiceClient.from_connection_string(conn_str=self.__connection_string)
+            except Exception as e:
+                raise e
+        else:
+            raise ValueError(&#39;Invalid connection string!!&#39;)
+
+    def list_container(self):
+        &#34;&#34;&#34;
+        \n Get the list of containers present in the storage account.
+
+        \n Returns:
+            - List of containers.
+
+        \n Example:
+            &gt;&gt;&gt; container = client.list_containers()
+        &#34;&#34;&#34;
+        containers_list=[]
+        try:
+            containers = self._client.list_containers()
+            containers_list=[container.name for container in containers]
+        except Exception as e:
+            raise e
+        return containers_list
+    
+    def list_blobs(self,container_name):
+        &#34;&#34;&#34;
+        Get the list of blobs/folders present in a container.
+
+        \n Args:
+            - container_name (str): Container name.
+
+        \n Returns:
+            - List of blobs/folders.
+
+        \n Example:
+            &gt;&gt;&gt; container = client.list_blobs()
+        &#34;&#34;&#34;
+
+        folder_list=[]
+        try:
+            container_client=self._client.get_container_client(container_name)
+            blob=container_client.list_blobs()
+            folder_list=[file.name.split(&#39;/&#39;)[0] for file in blob]
+        except Exception as e:
+            raise e
+        return list(set(folder_list))
+    
+    def list_files(self, container_name, blob_name):
+        &#34;&#34;&#34;
+        Get the list of blobs/folders present in a container.
+
+        \n Args:
+            - container_name (str): Container name.
+            - blob_name (str): Blob name.
+
+        \n Returns:
+            - List of blobs/folders.
+
+        \n Example:
+            &gt;&gt;&gt; # Get the list of files in a container
+            &gt;&gt;&gt; container_name = &#34;your_container_name&#34;
+            &gt;&gt;&gt; blob_name = &#34;your_blob_name&#34;
+            &gt;&gt;&gt; files = storage_utils.list_files(container_name, blob_name)
+            &gt;&gt;&gt; print(files)
+            [&#39;file1.txt&#39;, &#39;file2.csv&#39;, &#39;folder1&#39;, &#39;folder2&#39;]
+        &#34;&#34;&#34;
+        files=[]
+        try:
+            container_client=self._client.get_container_client(container=container_name)
+            blob=container_client.list_blobs(name_starts_with=blob_name)
+            for file in blob:
+                # name_starts_with will retrun all the matching blobs, to filter out specific blob we can split by /
+                if file.name.split(&#34;/&#34;)[0]==blob_name:
+                    file_name=file.name.replace(f&#34;{blob_name}/&#34;,&#39;&#39;)
+                    if file_name!=&#39;&#39; and file_name!=blob_name:
+                        files.append(file_name)
+        except Exception as e:
+            raise e
+        return files
+    
+    def download_file(self,container_name,
+                      blob_name,
+                      file_name:str=None,
+                      path:str=&#39;download&#39;,
+                      is_dataframe:bool=False,
+                      all_files:bool=False,
+                      file_regex:str=None):
+        &#34;&#34;&#34;
+        \n Download a file/all files from Azure Blob Storage.
+        \n Args:
+            - container_name (str): Container name.
+            - blob_name (str): Blob name.
+            - file_name (str): File name to be downloaded.
+
+        \n Kwargs:
+            - path (str, optional): Location where the file will be saved. Default is &#39;./download&#39;.
+            - is_dataframe (bool, optional): Return a dataframe without downloading the file. Default is False.
+            - all_files (bool, optional): download all file present in a blob
+            - file_regex (str, optional): You can pass the regex expresion to filter the files
+
+        \n Example:
+            &gt;&gt;&gt; # download sales_data.csv file from test blob into test folder
+            &gt;&gt;&gt; client.download_file(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;test&#39;,
+                file_name=&#39;sales_data.csv&#39;,
+                path=&#39;test&#39;)
+
+            &gt;&gt;&gt; # download all files present in &#39;raw&#39; blob
+            &gt;&gt;&gt; client.download_file(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                path=&#39;downloaded&#39;,
+                all_files=True
+                )
+
+            &gt;&gt;&gt; # download all files from &#39;raw&#39; folder whose name start with &#39;cust&#39;
+            &gt;&gt;&gt; client.download_file(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                all_files=True,
+                path=&#39;downloaded&#39;,
+                file_regex=&#39;cust*&#39;
+                )
+
+            &gt;&gt;&gt; # return a pandas dataframe
+            &gt;&gt;&gt; df=client.download_file(
+                        container_name=&#39;rawdata&#39;,
+                        blob_name=&#39;raw&#39;,
+                        file_name=&#39;cars_new.csv&#39;,
+                        is_dataframe=True
+                        )
+        &#34;&#34;&#34;
+
+        try:
+            if not is_dataframe:
+                full_path = os.path.join(os.getcwd(),f&#34;{path}/{blob_name}&#34;)
+                current_path=full_path
+                if not os.path.exists(full_path):
+                    os.makedirs(full_path)
+            is_data=False
+            if is_dataframe:
+                blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file_name}&#34;)
+                stream = BytesIO()
+                blob_client.download_blob().readinto(stream)
+                stream.seek(0)
+                df=utils._read_file(file_name,stream)
+                return df
+            
+            elif all_files:
+                file_list=self.list_files(container_name=container_name,blob_name=blob_name)
+                file_list=utils._filter_file(file_regex=file_regex,file_list=file_list)
+
+                count=0
+                for file in file_list:
+                    current_path=full_path
+                    is_data=False
+                # Creating directories and moving files
+                    if &#39;/&#39; in file:
+                        if &#39;.&#39; not in file:
+                            current_path = os.path.join(current_path, file)
+                            if not os.path.exists(current_path):
+                                os.makedirs(current_path)
+                        else:
+                            current_path = os.path.join(current_path, file)
+
+                            blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file}&#34;)
+                            try:
+                                data=blob_client.download_blob().readall()
+                                is_data=True
+                            except Exception as e:
+                                raise e
+                            if is_data:
+                                with open(current_path,&#34;wb&#34;) as f:
+                                    f.write(data)
+                                    count=count+1
+
+                    elif &#39;.&#39; not in file:
+                        current_path = os.path.join(current_path, file)
+                        if not os.path.exists(current_path):
+                                os.makedirs(current_path)
+                    else:
+
+                        blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file}&#34;)
+                        try:
+                            data=blob_client.download_blob().readall()
+                            is_data=True
+                        except Exception as e:
+                            raise e
+
+                        if is_data:
+                            with open(f&#34;{full_path}/{file}&#34;,&#34;wb&#34;) as f:
+                                f.write(data)
+                                count=count+1
+                print(f&#39;{count} files downloaded from container: {container_name} successfully&#39;)
+            else:
+                if file_name and not isinstance(file_name, int) and file_name.strip():
+                    try:
+                        blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file_name}&#34;)
+                        data=blob_client.download_blob().readall()
+                        is_data=True
+                    except Exception as e:
+                        raise e
+
+                    if is_data:
+                        with open(f&#34;{full_path}/{file_name}&#34;,&#34;wb&#34;) as f:
+                            f.write(data)
+                        print(f&#39;{file_name} downloaded from container: {container_name} successfully&#39;)
+                else:
+                    raise ValueError(&#39;Invalid file name!!&#39;)
+        except Exception as e:
+            raise e
+
+    def _upload_file_chunks(self,blob_client,full_path,file_name):
+        &#34;&#34;&#34;
+        Upload a large file to a blob in chunks.
+
+        \n Args:
+            - blob_client: The blob client for the destination blob.
+            - full_path (str): The full local path to the file to be uploaded.
+            - file_name (str): The name of the file to be uploaded.
+        \n Returns:
+            - dict:
+                A dictionary containing information about the uploaded file.
+
+        \n Raises:
+            - UploadFileError:
+                Raised if an error occurs during the file upload process.
+        \n Note:
+            This function is designed for uploading large files in smaller chunks to Azure Blob Storage.
+        &#34;&#34;&#34;
+        try:
+            # upload data
+            block_list=[]
+            chunk_size=1024*1024*4 #4 MB chunk
+            with open(f&#34;{full_path}/{file_name}&#34;,&#34;rb&#34;) as f:
+                while True:
+                    read_data = f.read(chunk_size)
+                    if not read_data:
+                        break # done
+                    blk_id = str(uuid.uuid4())
+                    blob_client.stage_block(block_id=blk_id,data=read_data) 
+                    block_list.append(BlobBlock(block_id=blk_id))
+            result=blob_client.commit_block_list(block_list)
+            return result
+        except BaseException as err:
+            raise UploadFileError(f&#39;Error while uploading the file.,{err}&#39;)
+
+    def upload_file(self,container_name,blob_name,file_path,file_name:str=None,all_files:bool=False,file_regex:str=None):
+        &#34;&#34;&#34;
+        Upload a file from a local directory to Azure Blob Storage.
+        \n Args:
+            - container_name (str): Container name.
+            - blob_name (str): Blob name.
+            - file_path (str): Local file path.
+
+        \n Kwargs:
+            - file_name (str, optional): File name. Default is None.
+            - all_files (bool, optional): If True, upload all files from the given directory. Default is False.
+            - file_regex (str, optional): You can pass the regex expresion to filter the files
+
+        \n Example:
+            &gt;&gt;&gt; # upload single file &#39;cars_new.csv&#39; from specified path file_path &#39;data&#39; into blob/folder &#39;raw&#39; 
+            &gt;&gt;&gt; client.upload_file(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;test&#39;,
+                file_name=&#39;cars_new.csv&#39;,
+                file_path=&#39;data&#39;
+                )
+
+            &gt;&gt;&gt; # upload all file present inside data folder
+            &gt;&gt;&gt; file_status=client.upload_file(
+                                    container_name=&#39;rawdata&#39;,
+                                    blob_name=&#39;test_new&#39;,
+                                    all_files=True,
+                                    file_path=&#39;data&#39;
+                                    )
+                print(file_status)
+
+            &gt;&gt;&gt; # upload all files whose name start with &#39;cust*&#39; from specified folder to specified blob
+            &gt;&gt;&gt; file_status=client.upload_file(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                all_files=True,
+                file_path=&#39;data&#39;,
+                file_regex=&#39;cust*&#39;
+                )
+                print(file_status)
+
+        &#34;&#34;&#34;
+        full_path = os.path.join(os.getcwd(),file_path)
+        try:
+            file_status=[]
+            if all_files:
+                files=os.listdir(full_path)
+                files=utils._filter_file(file_regex=file_regex,file_list=files)
+                print(f&#39;Uploading {len(files)} files !!&#39;)
+
+                flag=False
+                count=0
+                if len(files)==0:
+                    raise EmptyFolderError(&#39;Folder does not contain any files.&#39;)
+                else:
+                    for file in files:
+                        count=count+1
+                        print(f&#39;{count}/{len(files)} done.&#39;,end=&#39;\r&#39;)
+
+                        # get the file size
+                        file_stats = os.stat(file_path+&#39;/&#39;+file)
+                        file_size=round(file_stats.st_size / (1024 * 1024),2)
+
+                        # get blob client and upload file
+                        blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file}&#34;)
+                        result=self._upload_file_chunks(blob_client,full_path,file)
+
+                        # append extra info in result dict
+                        result[&#39;File Name&#39;]=file
+                        result[&#39;Upload Timestamp&#39;]=currentTime
+                        result[&#39;File Size(MB)&#39;]=file_size
+                        file_status.append(result)
+
+                print(f&#39;{len(files)} files uploaded to container: {container_name} successfully&#39;)
+            else:
+                # get the file size
+                file_stats = os.stat(file_path+&#39;/&#39;+file_name)
+                file_size=round(file_stats.st_size / (1024 * 1024),2)
+
+                # get client and uplaod file
+                blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file_name}&#34;)
+                result=self._upload_file_chunks(blob_client,full_path,file_name)
+
+                result[&#39;File Name&#39;]=file_name
+                result[&#39;Upload Timestamp&#39;]=currentTime
+                result[&#39;File Size(MB)&#39;]=file_size
+                file_status.append(result)
+                print(f&#39;{file_name} file uploaded to container: {container_name} successfully&#39;)
+
+            return file_status
+        except Exception as e:
+            message=f&#39;Error while uploading the file. {e}&#39;
+            raise UploadFileError(message)
+            
+    
+    def delete_file(self,container_name,blob_name,file_name:str=None,all_files:bool=False,file_regex:str=None):
+        &#34;&#34;&#34;
+        Delete files from Azure Blob Storage.
+        \n Args:
+            - container_name (str): Container name.
+            - blob_name (str): Blob name from which the file will be deleted.
+            - file_name (str): File name to be deleted.
+
+        \n Kwargs:
+            - all_files (bool, optional): If True, delete all files from the given blob. Default is False.
+            - file_regex (str, optional): You can pass the regex expresion to filter the files
+
+        \n Example:
+            &gt;&gt;&gt; # delete all files present inside a blob
+            &gt;&gt;&gt; client.delete_file(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                all_files=True
+                )
+
+            &gt;&gt;&gt; # delete single files present inside a blob
+            &gt;&gt;&gt; client.delete_file(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                file_name=&#39;Product_data.csv&#39;
+                )
+
+            &gt;&gt;&gt; # delete all files present inside a blob whose name start with &#39;cust&#39;
+            &gt;&gt;&gt; client.delete_file(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                all_files=True,
+                file_regex=&#39;cust*&#39;
+                )
+        &#34;&#34;&#34;
+
+        try:
+            result=False
+            if all_files:
+                file_list=self.list_files(container_name=container_name,blob_name=blob_name)
+                file_list=utils._filter_file(file_regex=file_regex,file_list=file_list)
+                print(file_list)
+                for file in file_list:
+                    blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file}&#34;)
+                    blob_client.delete_blob(delete_snapshots=&#39;include&#39;)
+
+                print(f&#39;{len(file_list)} files deleted from container: {container_name} successfully&#39;)
+                result=True
+            else:
+                blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file_name}&#34;)
+                blob_client.delete_blob(delete_snapshots=&#39;include&#39;)
+                print(f&#39;{file_name} deleted from container: {container_name} successfully&#39;)
+                result=True
+        except Exception as e:
+            message=f&#39;Error while deleting the file!!,{e}&#39;
+            raise DeleteFileError(message)
+        return result
+    
+    def conditional_filter(self, container_name, blob_name, creation_date, comparison=&#39;less_than&#39;, file_regex=None):
+        &#34;&#34;&#34;
+        Filter files based on certain criteria for deletion from Azure Blob Storage.
+        It will return the list od file on which we can take any action like delete file,copy file,download file etc.
+
+        \n Args:
+            - container_name (str): Name of the container in Azure Blob Storage.
+            - blob_name (str): Blob name from which the files will be filtered.
+            - creation_date (str): Date for comparison in the format &#39;%Y-%m-%d&#39;.
+            - comparison (str, optional): The type of comparison for file filtering (default is &#39;less_than&#39;).
+            - file_regex (str, optional): The regex expression used to filter the files (default is None).
+
+        \n Returns:
+            - list: A list of files filtered based on the specified criteria.
+
+        \n Explanation:
+            This method filters files in the Azure Blob Storage based on the specified criteria.
+            It retrieves a list of files from the blob specified by &#39;blob_name&#39; in the &#39;container_name&#39;.
+            Then, it compares the creation date of each file with the &#39;creation_date&#39; using the specified comparison
+            operator (default is &#39;less_than&#39;), and collects the files that meet the criteria for deletion/download.
+            If &#39;file_regex&#39; is provided, it further filters the files using the regex pattern.
+            Returns a list of files that satisfy the criteria.
+
+        \n Example:
+            &gt;&gt;&gt; # get all files which have creation date greater than &#39;2023-12-15&#39;
+            &gt;&gt;&gt; client.conditional_filter(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                creation_date=&#39;2023-12-15&#39;,
+                comparison=&#39;greater_than&#39;
+                )
+
+        &#34;&#34;&#34;
+        try:
+            if comparison not in [&#39;less_than&#39;,&#39;less_than_or_equal&#39;,&#39;greater_than&#39;,&#39;greater_than_or_equal&#39;]:
+                raise ValueError(&#34;Invalid comparison operator. Use any one of them [&#39;less_than&#39;,&#39;less_than_or_equal&#39;,&#39;greater_than&#39;,&#39;greater_than_or_equal&#39;]&#34;)
+            
+            file_list = []
+            creation_date = datetime.strptime(creation_date, &#39;%Y-%m-%d&#39;).date()
+
+            container_client = self._client.get_container_client(container=container_name)
+            blob = container_client.list_blobs(name_starts_with=blob_name)
+            comparison_operator = utils._comparison_operator(comparison=comparison)
+
+            # Collect files based on date criteria
+            for file in blob:
+                if comparison_operator(file.creation_time.date(), creation_date):
+                    file_name = file.name.replace(f&#34;{blob_name}/&#34;, &#39;&#39;)
+                    if file_name != &#39;&#39; and file_name != blob_name:
+                        file_list.append(file_name)
+
+            # Filter files by regex pattern if provided
+            file_list = utils._filter_file(file_regex=file_regex, file_list=file_list)
+            return file_list
+        except Exception as e:
+            raise e
+        
+    def conditional_operation(self, 
+                              container_name, 
+                              blob_name, 
+                              creation_date, 
+                              comparison=&#39;less_than&#39;, 
+                              file_regex=None,
+                              action=&#39;download&#39;,
+                              path=&#39;download&#39;):
+            &#34;&#34;&#34;
+            Perform conditional operations on files in Azure Blob Storage based on specified criteria.
+            \n Args:
+                - container_name (str): The name of the container in Azure Blob Storage.
+                - blob_name (str): The specific blob name in the container.
+                - creation_date (str): The creation date as a string in &#39;YYYY-MM-DD&#39; format.
+                - comparison (str, optional): The type of comparison operator for date-based deletion.
+                                            Possible values: &#39;less_than&#39;, &#39;less_than_or_equal&#39;,
+                                            &#39;greater_than&#39;, &#39;greater_than_or_equal&#39;, or any other value
+                                            (defaults to &#39;less_than&#39;).
+                - file_regex (str, optional): Regex pattern to filter files for deletion. Defaults to None.
+                - action (str, optional): The action to perform - &#39;delete&#39; or &#39;download&#39;. Defaults to &#39;download&#39;.
+                - path (str, optional): The path to download files when action is set to &#39;download&#39;. Defaults to &#39;download&#39;.
+
+            \n Raises:
+                - Exception: If an error occurs during file deletion or download, it raises an exception.
+
+            \n Returns:
+                - None: Performs file deletion or downloads files based on the specified action.
+
+        \n Example:
+            &gt;&gt;&gt; # download all files which have creation date greater than &#39;2023-12-15&#39;
+            &gt;&gt;&gt; client.conditional_operation(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                creation_date=&#39;2023-12-15&#39;,
+                comparison=&#39;greater_than&#39;,
+                action=&#39;download&#39;,
+                path=&#39;data&#39;
+                )
+
+            &gt;&gt;&gt; # delete all files which have creation date less than &#39;2023-12-15&#39;
+            &gt;&gt;&gt; client.conditional_operation(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                creation_date=&#39;2023-12-15&#39;,
+                comparison=&#39;less_than&#39;,
+                action=&#39;delete&#39;
+                )
+
+            &gt;&gt;&gt; # download all files which have creation date greater than &#39;2023-12-15&#39; and whose name start with &#39;cust&#39;
+            &gt;&gt;&gt; client.conditional_operation(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                creation_date=&#39;2023-12-15&#39;,
+                comparison=&#39;greater_than&#39;,
+                action=&#39;download&#39;,
+                path=&#39;data&#39;,
+                file_regex=&#39;cust*&#39;
+                )
+
+            &gt;&gt;&gt; # delete all files which have creation date less than &#39;2023-12-15&#39; and whose name start with &#39;cust&#39;
+            &gt;&gt;&gt; client.conditional_operation(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                creation_date=&#39;2023-12-15&#39;,
+                comparison=&#39;less_than&#39;,
+                action=&#39;delete&#39;,
+                file_regex=&#39;cust*&#39;
+                )
+            &#34;&#34;&#34;
+            try:
+                file_list=self.conditional_filter(container_name, blob_name, creation_date, comparison, file_regex)
+                
+                if action==&#39;delete&#39;:
+                    for file in file_list:
+                        self.delete_file(container_name=container_name,blob_name=blob_name,file_name=file)
+                    print(f&#39;{len(file_list)} files deleted from container: {container_name} successfully&#39;)
+
+                elif action==&#39;download&#39;:
+                    for file in file_list:
+                        self.download_file(container_name=container_name,blob_name=blob_name,file_name=file,path=path)
+                    print(f&#39;{len(file_list)} files downloaded from container: {container_name} successfully&#39;)
+                else:
+                    raise ValueError(&#34;Not a valid action type. Supported action types are [&#39;download&#39;,&#39;delete&#39;].&#34;)
+            except Exception as e:
+                message = f&#39;Error while {action} the file!!,{e}&#39;
+                raise ConditionalOperationError(message)
+        
+    def copy_blob(self,container_name,
+                  blob_name,
+                  destination_container,
+                  destination_blob,
+                  creation_date:str=None,
+                  comparison:str=&#39;less_than&#39;,
+                  file_name:str=None,
+                  all_files:bool=False,
+                  file_regex:str=None,
+                  abort_after:int=100,
+                  delete_file:bool=False
+                  ):
+        &#34;&#34;&#34;
+        Copy files or specific file from one Azure Blob Storage container to another.
+        
+        \n Args:
+            - container_name (str): Source container name.
+            - blob_name (str): Source blob name or pattern to filter files.
+            - destination_container (str): Destination container name.
+            - destination_blob (str): Destination blob name.
+        \n Kwargs:
+            - file_name (str, optional): Specific file name to copy. Default is None.
+            - all_files (bool, optional): If True, copy all files from the source blob. Default is False.
+            - file_regex (str, optional): Regex pattern to filter files for copying.
+            - abort_after (int, optional): Abort the copy after given time (in seconds). Default is 100 seconds.
+            - delete_file (boolean,optional): Delete the file after copy. Default False.
+        \n Raises:
+            - Exception: Raises an exception if an error occurs during the copying process.
+
+        \n Example:
+            &gt;&gt;&gt; # copy the sales_data.csv file from container &#39;rawdata&#39; to &#39;destination_container&#39;
+            &gt;&gt;&gt; status=client.copy_blob(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                destination_container=&#39;new-test&#39;,
+                destination_blob=&#39;raw&#39;,
+                file_name=&#39;sales_data.csv&#39;
+                )
+                print(status)
+
+            &gt;&gt;&gt; # copy the sales_data.csv file from container &#39;rawdata&#39; to destination container &#39;new-test&#39;
+            &gt;&gt;&gt; # and delete the file after copy from source container &#39;rawdata&#39;
+            &gt;&gt;&gt; status=client.copy_blob(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                destination_container=&#39;new-test&#39;,
+                destination_blob=&#39;raw&#39;,
+                file_name=&#39;sales_data.csv&#39;,
+                delete_file=True
+                )
+                print(status)
+
+            &gt;&gt;&gt; # copy the all files from container &#39;rawdata&#39; to destination container &#39;new-test&#39;
+            &gt;&gt;&gt; status=client.copy_blob(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                destination_container=&#39;new-test&#39;,
+                destination_blob=&#39;raw&#39;,
+                all_files=True
+                )
+                print(status)
+
+            &gt;&gt;&gt; # copy the all files from container &#39;rawdata&#39; to destination container &#39;new-test&#39; and whose name start with &#39;cust&#39;.
+            &gt;&gt;&gt; status=client.copy_blob(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                destination_container=&#39;new-test&#39;,
+                destination_blob=&#39;raw&#39;,
+                all_files=True,
+                file_regex=&#39;cust*
+                )
+                print(status)
+        \n Note: Priority will be all_files &gt; creation_date &gt; file_name
+        \n Abort time by default is 100s which can be changes using &#39;abort_after&#39; parameter.
+
+        &#34;&#34;&#34;
+        try:
+            file_status=[]
+            if all_files:
+                file_list=self.list_files(container_name,blob_name)
+                file_list=utils._filter_file(file_regex,file_list)
+
+                for file in file_list:
+                    # source and destination client
+                    source_blob_client=self._client.get_blob_client(container=container_name,blob=f&#39;{blob_name}/{file}&#39;)
+                    destination_blob_client=self._client.get_blob_client(container=destination_container,blob=f&#39;{destination_blob}/{file}&#39;)
+
+                    # copy file
+                    result=destination_blob_client.start_copy_from_url(source_url=source_blob_client.url)
+                    if delete_file:
+                        self.delete_file(container_name=container_name,blob_name=blob_name,file_name=file_name)
+                    
+                    # append extra info in result dict
+                    result[&#39;File Name&#39;]=file
+                    result[&#39;Timestamp&#39;]=currentTime
+                    file_status.append(result)
+                print(f&#39;{len(file_list)} files copied successfully&#39;)
+            elif creation_date!=None:
+                file_list=self.conditional_filter(container_name, blob_name, creation_date, comparison, file_regex)
+                for file in file_list:
+                    # source and destination client
+                    source_blob_client=self._client.get_blob_client(container=container_name,blob=f&#39;{blob_name}/{file}&#39;)
+                    destination_blob_client=self._client.get_blob_client(container=destination_container,blob=f&#39;{destination_blob}/{file}&#39;)
+
+                    # copy file
+                    result=destination_blob_client.start_copy_from_url(source_url=source_blob_client.url)
+                    if delete_file:
+                        self.delete_file(container_name=container_name,blob_name=blob_name,file_name=file_name)
+
+                    # append extra info in result dict
+                    result[&#39;File Name&#39;]=file
+                    result[&#39;Timestamp&#39;]=currentTime
+                    file_status.append(result)
+                print(f&#39;{len(file_list)} files copied successfully&#39;)
+            else:
+                if file_name!=None:
+                    # source and destination client
+                    source_blob_client=self._client.get_blob_client(container=container_name,blob=f&#39;{blob_name}/{file_name}&#39;)
+                    destination_blob_client=self._client.get_blob_client(container=destination_container,blob=f&#39;{destination_blob}/{file_name}&#39;)
+
+                    # copy and delete the file
+                    result=destination_blob_client.start_copy_from_url(source_url=source_blob_client.url)
+                    if abort_after:
+                        abort_result=utils._abort_copy(blob_client=destination_blob_client,abort_time=abort_after)
+                        if abort_result:
+                            if delete_file:
+                                self.delete_file(container_name=container_name,blob_name=blob_name,file_name=file_name)
+                            print(f&#39;{file_name} file copied from container: {container_name}/{blob_name} to {destination_container}/{destination_blob}&#39;)
+                        else:
+                            print(&#39;Copy operation aborted!!.&#39;)
+                            return file_status
+                        
+                    # append extra info in result dict
+                    result[&#39;File Name&#39;]=file_name
+                    result[&#39;Timestamp&#39;]=currentTime
+                    file_status.append(result)
+                else:
+                    raise ValueError(&#39;Invalid file name.&#39;)
+            return file_status
+        except Exception as e:
+            raise e
+        
+    def upload_dataframe(self,dataframe,file_name,container_name,blob_name):
+        &#34;&#34;&#34;
+        Uploads a Pandas DataFrame to Azure Blob Storage.
+
+        \n Args:
+            - dataframe (pd.DataFrame): The Pandas DataFrame to be uploaded.
+            - file_name (str): The name of the file to be created in the blob storage.
+            - container_name (str): The name of the Azure Blob Storage container.
+            - blob_name (str): The name of the blob within the specified container.
+        \n Raises:
+            - Exception: If an error occurs during the uploading process.
+        \n Example:
+            &gt;&gt;&gt; # Upload the Pandas dataframe to blob processed in XML format.
+            &gt;&gt;&gt; # supported format are CSV,JSON,XML.
+            &gt;&gt;&gt; result=client.upload_dataframe(
+                                dataframe=df,
+                                file_name=&#39;cars.xml&#39;,
+                                container_name=&#39;rawdata&#39;,
+                                blob_name=&#39;processed&#39;
+                                )
+                print(result)
+        &#34;&#34;&#34;
+        try:
+            format=file_name.split(&#34;.&#34;)[-1]
+            if isinstance(dataframe,pd.DataFrame):
+                print(&#39;Uploading the dataframe.&#39;)
+                file_content = BytesIO()
+                utils._save_dataframe(file_content,dataframe,format)
+                file_content.seek(0)
+                blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file_name}&#34;)
+                result=blob_client.upload_blob(data=file_content,overwrite=True)
+                return result
+        except Exception as e:
+            raise e    
+
+    def create_container(self,container_name):
+        &#34;&#34;&#34;
+        Create a container in Azure Storage.
+        \n Args:
+            - container_name (str): Name of the new container.
+        \n Example:
+            &gt;&gt;&gt; # create new container test2
+            &gt;&gt;&gt; client.create_container(container_name=&#39;test2&#39;)
+        &#34;&#34;&#34;
+        try:
+            # create containers
+            self._client.create_container(container_name)
+            # list containers
+            container_list=self.list_container()
+            print(f&#39;Available containers: {container_list}&#39;)
+        except Exception as e:
+            raise e
+    
+    def delete_container(self,container_name:str=None,all_containers:bool=False):
+        &#34;&#34;&#34;
+        Delete a container from Azure Storage.
+
+        \n Args:
+            - container_name (str): Name of the container to be deleted.
+        \n Kwargs:
+            - all_container (bool, optional): If True, delete all containers. Default is False.
+        \n Example:
+            &gt;&gt;&gt; # delete container test2
+            &gt;&gt;&gt; client.delete_container(container_name=&#39;test2&#39;)
+
+            &gt;&gt;&gt; # delete all container
+            &gt;&gt;&gt; client.delete_container(all_containers=True)
+        \n Note: We carefull while using this method as it will delete the container and its file.
+        &#34;&#34;&#34;
+
+        try:
+            if all_containers:
+                containers=self.list_container()
+                print(f&#39;Deleting {len(containers)} containers&#39;)
+
+                for container in containers:
+                    container_client=self._client.get_container_client(container=container)
+                    container_client.delete_container()
+                    print(f&#39;Container {container_name} deleted successfully!!&#39;)
+            else:
+                # delete container
+                container_client=self._client.get_container_client(container=container_name)
+                container_client.delete_container()
+                print(f&#39;Container {container_name} deleted successfully!!&#39;)
+
+                # list containers
+                container_list=self.list_container()
+                print(f&#39;Available containers: {container_list}&#39;)
+        except Exception as e:
+            raise e</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="azure_strg_utils.azure_strg_utils.AzureStorageUtils"><code class="flex name class">
+<span>class <span class="ident">AzureStorageUtils</span></span>
+<span>(</span><span>connection_string)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Initialize the object with Azure Storage connection string.</p>
+<h2 id="args">Args</h2>
+<ul>
+<li>connection_string (str): Azure storage account connection string.</li>
+</ul>
+<h2 id="example">Example</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; connection_str = &quot;your_azure_storage_connection_string&quot;
+&gt;&gt;&gt; client = AzureStorageUtils(connection_str)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AzureStorageUtils:
+    def __init__(self,connection_string) -&gt; None:
+        &#34;&#34;&#34;
+        Initialize the object with Azure Storage connection string.
+
+        \n Args:
+            - connection_string (str): Azure storage account connection string.
+
+        \n Example:
+            &gt;&gt;&gt; connection_str = &#34;your_azure_storage_connection_string&#34;
+            &gt;&gt;&gt; client = AzureStorageUtils(connection_str)
+        &#34;&#34;&#34;
+        self.__connection_string=connection_string
+
+        if self.__connection_string!=&#39;&#39; or self.__connection_string is not None:
+            try:
+                self._client=BlobServiceClient.from_connection_string(conn_str=self.__connection_string)
+            except Exception as e:
+                raise e
+        else:
+            raise ValueError(&#39;Invalid connection string!!&#39;)
+
+    def list_container(self):
+        &#34;&#34;&#34;
+        \n Get the list of containers present in the storage account.
+
+        \n Returns:
+            - List of containers.
+
+        \n Example:
+            &gt;&gt;&gt; container = client.list_containers()
+        &#34;&#34;&#34;
+        containers_list=[]
+        try:
+            containers = self._client.list_containers()
+            containers_list=[container.name for container in containers]
+        except Exception as e:
+            raise e
+        return containers_list
+    
+    def list_blobs(self,container_name):
+        &#34;&#34;&#34;
+        Get the list of blobs/folders present in a container.
+
+        \n Args:
+            - container_name (str): Container name.
+
+        \n Returns:
+            - List of blobs/folders.
+
+        \n Example:
+            &gt;&gt;&gt; container = client.list_blobs()
+        &#34;&#34;&#34;
+
+        folder_list=[]
+        try:
+            container_client=self._client.get_container_client(container_name)
+            blob=container_client.list_blobs()
+            folder_list=[file.name.split(&#39;/&#39;)[0] for file in blob]
+        except Exception as e:
+            raise e
+        return list(set(folder_list))
+    
+    def list_files(self, container_name, blob_name):
+        &#34;&#34;&#34;
+        Get the list of blobs/folders present in a container.
+
+        \n Args:
+            - container_name (str): Container name.
+            - blob_name (str): Blob name.
+
+        \n Returns:
+            - List of blobs/folders.
+
+        \n Example:
+            &gt;&gt;&gt; # Get the list of files in a container
+            &gt;&gt;&gt; container_name = &#34;your_container_name&#34;
+            &gt;&gt;&gt; blob_name = &#34;your_blob_name&#34;
+            &gt;&gt;&gt; files = storage_utils.list_files(container_name, blob_name)
+            &gt;&gt;&gt; print(files)
+            [&#39;file1.txt&#39;, &#39;file2.csv&#39;, &#39;folder1&#39;, &#39;folder2&#39;]
+        &#34;&#34;&#34;
+        files=[]
+        try:
+            container_client=self._client.get_container_client(container=container_name)
+            blob=container_client.list_blobs(name_starts_with=blob_name)
+            for file in blob:
+                # name_starts_with will retrun all the matching blobs, to filter out specific blob we can split by /
+                if file.name.split(&#34;/&#34;)[0]==blob_name:
+                    file_name=file.name.replace(f&#34;{blob_name}/&#34;,&#39;&#39;)
+                    if file_name!=&#39;&#39; and file_name!=blob_name:
+                        files.append(file_name)
+        except Exception as e:
+            raise e
+        return files
+    
+    def download_file(self,container_name,
+                      blob_name,
+                      file_name:str=None,
+                      path:str=&#39;download&#39;,
+                      is_dataframe:bool=False,
+                      all_files:bool=False,
+                      file_regex:str=None):
+        &#34;&#34;&#34;
+        \n Download a file/all files from Azure Blob Storage.
+        \n Args:
+            - container_name (str): Container name.
+            - blob_name (str): Blob name.
+            - file_name (str): File name to be downloaded.
+
+        \n Kwargs:
+            - path (str, optional): Location where the file will be saved. Default is &#39;./download&#39;.
+            - is_dataframe (bool, optional): Return a dataframe without downloading the file. Default is False.
+            - all_files (bool, optional): download all file present in a blob
+            - file_regex (str, optional): You can pass the regex expresion to filter the files
+
+        \n Example:
+            &gt;&gt;&gt; # download sales_data.csv file from test blob into test folder
+            &gt;&gt;&gt; client.download_file(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;test&#39;,
+                file_name=&#39;sales_data.csv&#39;,
+                path=&#39;test&#39;)
+
+            &gt;&gt;&gt; # download all files present in &#39;raw&#39; blob
+            &gt;&gt;&gt; client.download_file(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                path=&#39;downloaded&#39;,
+                all_files=True
+                )
+
+            &gt;&gt;&gt; # download all files from &#39;raw&#39; folder whose name start with &#39;cust&#39;
+            &gt;&gt;&gt; client.download_file(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                all_files=True,
+                path=&#39;downloaded&#39;,
+                file_regex=&#39;cust*&#39;
+                )
+
+            &gt;&gt;&gt; # return a pandas dataframe
+            &gt;&gt;&gt; df=client.download_file(
+                        container_name=&#39;rawdata&#39;,
+                        blob_name=&#39;raw&#39;,
+                        file_name=&#39;cars_new.csv&#39;,
+                        is_dataframe=True
+                        )
+        &#34;&#34;&#34;
+
+        try:
+            if not is_dataframe:
+                full_path = os.path.join(os.getcwd(),f&#34;{path}/{blob_name}&#34;)
+                current_path=full_path
+                if not os.path.exists(full_path):
+                    os.makedirs(full_path)
+            is_data=False
+            if is_dataframe:
+                blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file_name}&#34;)
+                stream = BytesIO()
+                blob_client.download_blob().readinto(stream)
+                stream.seek(0)
+                df=utils._read_file(file_name,stream)
+                return df
+            
+            elif all_files:
+                file_list=self.list_files(container_name=container_name,blob_name=blob_name)
+                file_list=utils._filter_file(file_regex=file_regex,file_list=file_list)
+
+                count=0
+                for file in file_list:
+                    current_path=full_path
+                    is_data=False
+                # Creating directories and moving files
+                    if &#39;/&#39; in file:
+                        if &#39;.&#39; not in file:
+                            current_path = os.path.join(current_path, file)
+                            if not os.path.exists(current_path):
+                                os.makedirs(current_path)
+                        else:
+                            current_path = os.path.join(current_path, file)
+
+                            blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file}&#34;)
+                            try:
+                                data=blob_client.download_blob().readall()
+                                is_data=True
+                            except Exception as e:
+                                raise e
+                            if is_data:
+                                with open(current_path,&#34;wb&#34;) as f:
+                                    f.write(data)
+                                    count=count+1
+
+                    elif &#39;.&#39; not in file:
+                        current_path = os.path.join(current_path, file)
+                        if not os.path.exists(current_path):
+                                os.makedirs(current_path)
+                    else:
+
+                        blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file}&#34;)
+                        try:
+                            data=blob_client.download_blob().readall()
+                            is_data=True
+                        except Exception as e:
+                            raise e
+
+                        if is_data:
+                            with open(f&#34;{full_path}/{file}&#34;,&#34;wb&#34;) as f:
+                                f.write(data)
+                                count=count+1
+                print(f&#39;{count} files downloaded from container: {container_name} successfully&#39;)
+            else:
+                if file_name and not isinstance(file_name, int) and file_name.strip():
+                    try:
+                        blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file_name}&#34;)
+                        data=blob_client.download_blob().readall()
+                        is_data=True
+                    except Exception as e:
+                        raise e
+
+                    if is_data:
+                        with open(f&#34;{full_path}/{file_name}&#34;,&#34;wb&#34;) as f:
+                            f.write(data)
+                        print(f&#39;{file_name} downloaded from container: {container_name} successfully&#39;)
+                else:
+                    raise ValueError(&#39;Invalid file name!!&#39;)
+        except Exception as e:
+            raise e
+
+    def _upload_file_chunks(self,blob_client,full_path,file_name):
+        &#34;&#34;&#34;
+        Upload a large file to a blob in chunks.
+
+        \n Args:
+            - blob_client: The blob client for the destination blob.
+            - full_path (str): The full local path to the file to be uploaded.
+            - file_name (str): The name of the file to be uploaded.
+        \n Returns:
+            - dict:
+                A dictionary containing information about the uploaded file.
+
+        \n Raises:
+            - UploadFileError:
+                Raised if an error occurs during the file upload process.
+        \n Note:
+            This function is designed for uploading large files in smaller chunks to Azure Blob Storage.
+        &#34;&#34;&#34;
+        try:
+            # upload data
+            block_list=[]
+            chunk_size=1024*1024*4 #4 MB chunk
+            with open(f&#34;{full_path}/{file_name}&#34;,&#34;rb&#34;) as f:
+                while True:
+                    read_data = f.read(chunk_size)
+                    if not read_data:
+                        break # done
+                    blk_id = str(uuid.uuid4())
+                    blob_client.stage_block(block_id=blk_id,data=read_data) 
+                    block_list.append(BlobBlock(block_id=blk_id))
+            result=blob_client.commit_block_list(block_list)
+            return result
+        except BaseException as err:
+            raise UploadFileError(f&#39;Error while uploading the file.,{err}&#39;)
+
+    def upload_file(self,container_name,blob_name,file_path,file_name:str=None,all_files:bool=False,file_regex:str=None):
+        &#34;&#34;&#34;
+        Upload a file from a local directory to Azure Blob Storage.
+        \n Args:
+            - container_name (str): Container name.
+            - blob_name (str): Blob name.
+            - file_path (str): Local file path.
+
+        \n Kwargs:
+            - file_name (str, optional): File name. Default is None.
+            - all_files (bool, optional): If True, upload all files from the given directory. Default is False.
+            - file_regex (str, optional): You can pass the regex expresion to filter the files
+
+        \n Example:
+            &gt;&gt;&gt; # upload single file &#39;cars_new.csv&#39; from specified path file_path &#39;data&#39; into blob/folder &#39;raw&#39; 
+            &gt;&gt;&gt; client.upload_file(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;test&#39;,
+                file_name=&#39;cars_new.csv&#39;,
+                file_path=&#39;data&#39;
+                )
+
+            &gt;&gt;&gt; # upload all file present inside data folder
+            &gt;&gt;&gt; file_status=client.upload_file(
+                                    container_name=&#39;rawdata&#39;,
+                                    blob_name=&#39;test_new&#39;,
+                                    all_files=True,
+                                    file_path=&#39;data&#39;
+                                    )
+                print(file_status)
+
+            &gt;&gt;&gt; # upload all files whose name start with &#39;cust*&#39; from specified folder to specified blob
+            &gt;&gt;&gt; file_status=client.upload_file(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                all_files=True,
+                file_path=&#39;data&#39;,
+                file_regex=&#39;cust*&#39;
+                )
+                print(file_status)
+
+        &#34;&#34;&#34;
+        full_path = os.path.join(os.getcwd(),file_path)
+        try:
+            file_status=[]
+            if all_files:
+                files=os.listdir(full_path)
+                files=utils._filter_file(file_regex=file_regex,file_list=files)
+                print(f&#39;Uploading {len(files)} files !!&#39;)
+
+                flag=False
+                count=0
+                if len(files)==0:
+                    raise EmptyFolderError(&#39;Folder does not contain any files.&#39;)
+                else:
+                    for file in files:
+                        count=count+1
+                        print(f&#39;{count}/{len(files)} done.&#39;,end=&#39;\r&#39;)
+
+                        # get the file size
+                        file_stats = os.stat(file_path+&#39;/&#39;+file)
+                        file_size=round(file_stats.st_size / (1024 * 1024),2)
+
+                        # get blob client and upload file
+                        blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file}&#34;)
+                        result=self._upload_file_chunks(blob_client,full_path,file)
+
+                        # append extra info in result dict
+                        result[&#39;File Name&#39;]=file
+                        result[&#39;Upload Timestamp&#39;]=currentTime
+                        result[&#39;File Size(MB)&#39;]=file_size
+                        file_status.append(result)
+
+                print(f&#39;{len(files)} files uploaded to container: {container_name} successfully&#39;)
+            else:
+                # get the file size
+                file_stats = os.stat(file_path+&#39;/&#39;+file_name)
+                file_size=round(file_stats.st_size / (1024 * 1024),2)
+
+                # get client and uplaod file
+                blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file_name}&#34;)
+                result=self._upload_file_chunks(blob_client,full_path,file_name)
+
+                result[&#39;File Name&#39;]=file_name
+                result[&#39;Upload Timestamp&#39;]=currentTime
+                result[&#39;File Size(MB)&#39;]=file_size
+                file_status.append(result)
+                print(f&#39;{file_name} file uploaded to container: {container_name} successfully&#39;)
+
+            return file_status
+        except Exception as e:
+            message=f&#39;Error while uploading the file. {e}&#39;
+            raise UploadFileError(message)
+            
+    
+    def delete_file(self,container_name,blob_name,file_name:str=None,all_files:bool=False,file_regex:str=None):
+        &#34;&#34;&#34;
+        Delete files from Azure Blob Storage.
+        \n Args:
+            - container_name (str): Container name.
+            - blob_name (str): Blob name from which the file will be deleted.
+            - file_name (str): File name to be deleted.
+
+        \n Kwargs:
+            - all_files (bool, optional): If True, delete all files from the given blob. Default is False.
+            - file_regex (str, optional): You can pass the regex expresion to filter the files
+
+        \n Example:
+            &gt;&gt;&gt; # delete all files present inside a blob
+            &gt;&gt;&gt; client.delete_file(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                all_files=True
+                )
+
+            &gt;&gt;&gt; # delete single files present inside a blob
+            &gt;&gt;&gt; client.delete_file(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                file_name=&#39;Product_data.csv&#39;
+                )
+
+            &gt;&gt;&gt; # delete all files present inside a blob whose name start with &#39;cust&#39;
+            &gt;&gt;&gt; client.delete_file(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                all_files=True,
+                file_regex=&#39;cust*&#39;
+                )
+        &#34;&#34;&#34;
+
+        try:
+            result=False
+            if all_files:
+                file_list=self.list_files(container_name=container_name,blob_name=blob_name)
+                file_list=utils._filter_file(file_regex=file_regex,file_list=file_list)
+                print(file_list)
+                for file in file_list:
+                    blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file}&#34;)
+                    blob_client.delete_blob(delete_snapshots=&#39;include&#39;)
+
+                print(f&#39;{len(file_list)} files deleted from container: {container_name} successfully&#39;)
+                result=True
+            else:
+                blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file_name}&#34;)
+                blob_client.delete_blob(delete_snapshots=&#39;include&#39;)
+                print(f&#39;{file_name} deleted from container: {container_name} successfully&#39;)
+                result=True
+        except Exception as e:
+            message=f&#39;Error while deleting the file!!,{e}&#39;
+            raise DeleteFileError(message)
+        return result
+    
+    def conditional_filter(self, container_name, blob_name, creation_date, comparison=&#39;less_than&#39;, file_regex=None):
+        &#34;&#34;&#34;
+        Filter files based on certain criteria for deletion from Azure Blob Storage.
+        It will return the list od file on which we can take any action like delete file,copy file,download file etc.
+
+        \n Args:
+            - container_name (str): Name of the container in Azure Blob Storage.
+            - blob_name (str): Blob name from which the files will be filtered.
+            - creation_date (str): Date for comparison in the format &#39;%Y-%m-%d&#39;.
+            - comparison (str, optional): The type of comparison for file filtering (default is &#39;less_than&#39;).
+            - file_regex (str, optional): The regex expression used to filter the files (default is None).
+
+        \n Returns:
+            - list: A list of files filtered based on the specified criteria.
+
+        \n Explanation:
+            This method filters files in the Azure Blob Storage based on the specified criteria.
+            It retrieves a list of files from the blob specified by &#39;blob_name&#39; in the &#39;container_name&#39;.
+            Then, it compares the creation date of each file with the &#39;creation_date&#39; using the specified comparison
+            operator (default is &#39;less_than&#39;), and collects the files that meet the criteria for deletion/download.
+            If &#39;file_regex&#39; is provided, it further filters the files using the regex pattern.
+            Returns a list of files that satisfy the criteria.
+
+        \n Example:
+            &gt;&gt;&gt; # get all files which have creation date greater than &#39;2023-12-15&#39;
+            &gt;&gt;&gt; client.conditional_filter(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                creation_date=&#39;2023-12-15&#39;,
+                comparison=&#39;greater_than&#39;
+                )
+
+        &#34;&#34;&#34;
+        try:
+            if comparison not in [&#39;less_than&#39;,&#39;less_than_or_equal&#39;,&#39;greater_than&#39;,&#39;greater_than_or_equal&#39;]:
+                raise ValueError(&#34;Invalid comparison operator. Use any one of them [&#39;less_than&#39;,&#39;less_than_or_equal&#39;,&#39;greater_than&#39;,&#39;greater_than_or_equal&#39;]&#34;)
+            
+            file_list = []
+            creation_date = datetime.strptime(creation_date, &#39;%Y-%m-%d&#39;).date()
+
+            container_client = self._client.get_container_client(container=container_name)
+            blob = container_client.list_blobs(name_starts_with=blob_name)
+            comparison_operator = utils._comparison_operator(comparison=comparison)
+
+            # Collect files based on date criteria
+            for file in blob:
+                if comparison_operator(file.creation_time.date(), creation_date):
+                    file_name = file.name.replace(f&#34;{blob_name}/&#34;, &#39;&#39;)
+                    if file_name != &#39;&#39; and file_name != blob_name:
+                        file_list.append(file_name)
+
+            # Filter files by regex pattern if provided
+            file_list = utils._filter_file(file_regex=file_regex, file_list=file_list)
+            return file_list
+        except Exception as e:
+            raise e
+        
+    def conditional_operation(self, 
+                              container_name, 
+                              blob_name, 
+                              creation_date, 
+                              comparison=&#39;less_than&#39;, 
+                              file_regex=None,
+                              action=&#39;download&#39;,
+                              path=&#39;download&#39;):
+            &#34;&#34;&#34;
+            Perform conditional operations on files in Azure Blob Storage based on specified criteria.
+            \n Args:
+                - container_name (str): The name of the container in Azure Blob Storage.
+                - blob_name (str): The specific blob name in the container.
+                - creation_date (str): The creation date as a string in &#39;YYYY-MM-DD&#39; format.
+                - comparison (str, optional): The type of comparison operator for date-based deletion.
+                                            Possible values: &#39;less_than&#39;, &#39;less_than_or_equal&#39;,
+                                            &#39;greater_than&#39;, &#39;greater_than_or_equal&#39;, or any other value
+                                            (defaults to &#39;less_than&#39;).
+                - file_regex (str, optional): Regex pattern to filter files for deletion. Defaults to None.
+                - action (str, optional): The action to perform - &#39;delete&#39; or &#39;download&#39;. Defaults to &#39;download&#39;.
+                - path (str, optional): The path to download files when action is set to &#39;download&#39;. Defaults to &#39;download&#39;.
+
+            \n Raises:
+                - Exception: If an error occurs during file deletion or download, it raises an exception.
+
+            \n Returns:
+                - None: Performs file deletion or downloads files based on the specified action.
+
+        \n Example:
+            &gt;&gt;&gt; # download all files which have creation date greater than &#39;2023-12-15&#39;
+            &gt;&gt;&gt; client.conditional_operation(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                creation_date=&#39;2023-12-15&#39;,
+                comparison=&#39;greater_than&#39;,
+                action=&#39;download&#39;,
+                path=&#39;data&#39;
+                )
+
+            &gt;&gt;&gt; # delete all files which have creation date less than &#39;2023-12-15&#39;
+            &gt;&gt;&gt; client.conditional_operation(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                creation_date=&#39;2023-12-15&#39;,
+                comparison=&#39;less_than&#39;,
+                action=&#39;delete&#39;
+                )
+
+            &gt;&gt;&gt; # download all files which have creation date greater than &#39;2023-12-15&#39; and whose name start with &#39;cust&#39;
+            &gt;&gt;&gt; client.conditional_operation(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                creation_date=&#39;2023-12-15&#39;,
+                comparison=&#39;greater_than&#39;,
+                action=&#39;download&#39;,
+                path=&#39;data&#39;,
+                file_regex=&#39;cust*&#39;
+                )
+
+            &gt;&gt;&gt; # delete all files which have creation date less than &#39;2023-12-15&#39; and whose name start with &#39;cust&#39;
+            &gt;&gt;&gt; client.conditional_operation(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                creation_date=&#39;2023-12-15&#39;,
+                comparison=&#39;less_than&#39;,
+                action=&#39;delete&#39;,
+                file_regex=&#39;cust*&#39;
+                )
+            &#34;&#34;&#34;
+            try:
+                file_list=self.conditional_filter(container_name, blob_name, creation_date, comparison, file_regex)
+                
+                if action==&#39;delete&#39;:
+                    for file in file_list:
+                        self.delete_file(container_name=container_name,blob_name=blob_name,file_name=file)
+                    print(f&#39;{len(file_list)} files deleted from container: {container_name} successfully&#39;)
+
+                elif action==&#39;download&#39;:
+                    for file in file_list:
+                        self.download_file(container_name=container_name,blob_name=blob_name,file_name=file,path=path)
+                    print(f&#39;{len(file_list)} files downloaded from container: {container_name} successfully&#39;)
+                else:
+                    raise ValueError(&#34;Not a valid action type. Supported action types are [&#39;download&#39;,&#39;delete&#39;].&#34;)
+            except Exception as e:
+                message = f&#39;Error while {action} the file!!,{e}&#39;
+                raise ConditionalOperationError(message)
+        
+    def copy_blob(self,container_name,
+                  blob_name,
+                  destination_container,
+                  destination_blob,
+                  creation_date:str=None,
+                  comparison:str=&#39;less_than&#39;,
+                  file_name:str=None,
+                  all_files:bool=False,
+                  file_regex:str=None,
+                  abort_after:int=100,
+                  delete_file:bool=False
+                  ):
+        &#34;&#34;&#34;
+        Copy files or specific file from one Azure Blob Storage container to another.
+        
+        \n Args:
+            - container_name (str): Source container name.
+            - blob_name (str): Source blob name or pattern to filter files.
+            - destination_container (str): Destination container name.
+            - destination_blob (str): Destination blob name.
+        \n Kwargs:
+            - file_name (str, optional): Specific file name to copy. Default is None.
+            - all_files (bool, optional): If True, copy all files from the source blob. Default is False.
+            - file_regex (str, optional): Regex pattern to filter files for copying.
+            - abort_after (int, optional): Abort the copy after given time (in seconds). Default is 100 seconds.
+            - delete_file (boolean,optional): Delete the file after copy. Default False.
+        \n Raises:
+            - Exception: Raises an exception if an error occurs during the copying process.
+
+        \n Example:
+            &gt;&gt;&gt; # copy the sales_data.csv file from container &#39;rawdata&#39; to &#39;destination_container&#39;
+            &gt;&gt;&gt; status=client.copy_blob(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                destination_container=&#39;new-test&#39;,
+                destination_blob=&#39;raw&#39;,
+                file_name=&#39;sales_data.csv&#39;
+                )
+                print(status)
+
+            &gt;&gt;&gt; # copy the sales_data.csv file from container &#39;rawdata&#39; to destination container &#39;new-test&#39;
+            &gt;&gt;&gt; # and delete the file after copy from source container &#39;rawdata&#39;
+            &gt;&gt;&gt; status=client.copy_blob(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                destination_container=&#39;new-test&#39;,
+                destination_blob=&#39;raw&#39;,
+                file_name=&#39;sales_data.csv&#39;,
+                delete_file=True
+                )
+                print(status)
+
+            &gt;&gt;&gt; # copy the all files from container &#39;rawdata&#39; to destination container &#39;new-test&#39;
+            &gt;&gt;&gt; status=client.copy_blob(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                destination_container=&#39;new-test&#39;,
+                destination_blob=&#39;raw&#39;,
+                all_files=True
+                )
+                print(status)
+
+            &gt;&gt;&gt; # copy the all files from container &#39;rawdata&#39; to destination container &#39;new-test&#39; and whose name start with &#39;cust&#39;.
+            &gt;&gt;&gt; status=client.copy_blob(
+                container_name=&#39;rawdata&#39;,
+                blob_name=&#39;raw&#39;,
+                destination_container=&#39;new-test&#39;,
+                destination_blob=&#39;raw&#39;,
+                all_files=True,
+                file_regex=&#39;cust*
+                )
+                print(status)
+        \n Note: Priority will be all_files &gt; creation_date &gt; file_name
+        \n Abort time by default is 100s which can be changes using &#39;abort_after&#39; parameter.
+
+        &#34;&#34;&#34;
+        try:
+            file_status=[]
+            if all_files:
+                file_list=self.list_files(container_name,blob_name)
+                file_list=utils._filter_file(file_regex,file_list)
+
+                for file in file_list:
+                    # source and destination client
+                    source_blob_client=self._client.get_blob_client(container=container_name,blob=f&#39;{blob_name}/{file}&#39;)
+                    destination_blob_client=self._client.get_blob_client(container=destination_container,blob=f&#39;{destination_blob}/{file}&#39;)
+
+                    # copy file
+                    result=destination_blob_client.start_copy_from_url(source_url=source_blob_client.url)
+                    if delete_file:
+                        self.delete_file(container_name=container_name,blob_name=blob_name,file_name=file_name)
+                    
+                    # append extra info in result dict
+                    result[&#39;File Name&#39;]=file
+                    result[&#39;Timestamp&#39;]=currentTime
+                    file_status.append(result)
+                print(f&#39;{len(file_list)} files copied successfully&#39;)
+            elif creation_date!=None:
+                file_list=self.conditional_filter(container_name, blob_name, creation_date, comparison, file_regex)
+                for file in file_list:
+                    # source and destination client
+                    source_blob_client=self._client.get_blob_client(container=container_name,blob=f&#39;{blob_name}/{file}&#39;)
+                    destination_blob_client=self._client.get_blob_client(container=destination_container,blob=f&#39;{destination_blob}/{file}&#39;)
+
+                    # copy file
+                    result=destination_blob_client.start_copy_from_url(source_url=source_blob_client.url)
+                    if delete_file:
+                        self.delete_file(container_name=container_name,blob_name=blob_name,file_name=file_name)
+
+                    # append extra info in result dict
+                    result[&#39;File Name&#39;]=file
+                    result[&#39;Timestamp&#39;]=currentTime
+                    file_status.append(result)
+                print(f&#39;{len(file_list)} files copied successfully&#39;)
+            else:
+                if file_name!=None:
+                    # source and destination client
+                    source_blob_client=self._client.get_blob_client(container=container_name,blob=f&#39;{blob_name}/{file_name}&#39;)
+                    destination_blob_client=self._client.get_blob_client(container=destination_container,blob=f&#39;{destination_blob}/{file_name}&#39;)
+
+                    # copy and delete the file
+                    result=destination_blob_client.start_copy_from_url(source_url=source_blob_client.url)
+                    if abort_after:
+                        abort_result=utils._abort_copy(blob_client=destination_blob_client,abort_time=abort_after)
+                        if abort_result:
+                            if delete_file:
+                                self.delete_file(container_name=container_name,blob_name=blob_name,file_name=file_name)
+                            print(f&#39;{file_name} file copied from container: {container_name}/{blob_name} to {destination_container}/{destination_blob}&#39;)
+                        else:
+                            print(&#39;Copy operation aborted!!.&#39;)
+                            return file_status
+                        
+                    # append extra info in result dict
+                    result[&#39;File Name&#39;]=file_name
+                    result[&#39;Timestamp&#39;]=currentTime
+                    file_status.append(result)
+                else:
+                    raise ValueError(&#39;Invalid file name.&#39;)
+            return file_status
+        except Exception as e:
+            raise e
+        
+    def upload_dataframe(self,dataframe,file_name,container_name,blob_name):
+        &#34;&#34;&#34;
+        Uploads a Pandas DataFrame to Azure Blob Storage.
+
+        \n Args:
+            - dataframe (pd.DataFrame): The Pandas DataFrame to be uploaded.
+            - file_name (str): The name of the file to be created in the blob storage.
+            - container_name (str): The name of the Azure Blob Storage container.
+            - blob_name (str): The name of the blob within the specified container.
+        \n Raises:
+            - Exception: If an error occurs during the uploading process.
+        \n Example:
+            &gt;&gt;&gt; # Upload the Pandas dataframe to blob processed in XML format.
+            &gt;&gt;&gt; # supported format are CSV,JSON,XML.
+            &gt;&gt;&gt; result=client.upload_dataframe(
+                                dataframe=df,
+                                file_name=&#39;cars.xml&#39;,
+                                container_name=&#39;rawdata&#39;,
+                                blob_name=&#39;processed&#39;
+                                )
+                print(result)
+        &#34;&#34;&#34;
+        try:
+            format=file_name.split(&#34;.&#34;)[-1]
+            if isinstance(dataframe,pd.DataFrame):
+                print(&#39;Uploading the dataframe.&#39;)
+                file_content = BytesIO()
+                utils._save_dataframe(file_content,dataframe,format)
+                file_content.seek(0)
+                blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file_name}&#34;)
+                result=blob_client.upload_blob(data=file_content,overwrite=True)
+                return result
+        except Exception as e:
+            raise e    
+
+    def create_container(self,container_name):
+        &#34;&#34;&#34;
+        Create a container in Azure Storage.
+        \n Args:
+            - container_name (str): Name of the new container.
+        \n Example:
+            &gt;&gt;&gt; # create new container test2
+            &gt;&gt;&gt; client.create_container(container_name=&#39;test2&#39;)
+        &#34;&#34;&#34;
+        try:
+            # create containers
+            self._client.create_container(container_name)
+            # list containers
+            container_list=self.list_container()
+            print(f&#39;Available containers: {container_list}&#39;)
+        except Exception as e:
+            raise e
+    
+    def delete_container(self,container_name:str=None,all_containers:bool=False):
+        &#34;&#34;&#34;
+        Delete a container from Azure Storage.
+
+        \n Args:
+            - container_name (str): Name of the container to be deleted.
+        \n Kwargs:
+            - all_container (bool, optional): If True, delete all containers. Default is False.
+        \n Example:
+            &gt;&gt;&gt; # delete container test2
+            &gt;&gt;&gt; client.delete_container(container_name=&#39;test2&#39;)
+
+            &gt;&gt;&gt; # delete all container
+            &gt;&gt;&gt; client.delete_container(all_containers=True)
+        \n Note: We carefull while using this method as it will delete the container and its file.
+        &#34;&#34;&#34;
+
+        try:
+            if all_containers:
+                containers=self.list_container()
+                print(f&#39;Deleting {len(containers)} containers&#39;)
+
+                for container in containers:
+                    container_client=self._client.get_container_client(container=container)
+                    container_client.delete_container()
+                    print(f&#39;Container {container_name} deleted successfully!!&#39;)
+            else:
+                # delete container
+                container_client=self._client.get_container_client(container=container_name)
+                container_client.delete_container()
+                print(f&#39;Container {container_name} deleted successfully!!&#39;)
+
+                # list containers
+                container_list=self.list_container()
+                print(f&#39;Available containers: {container_list}&#39;)
+        except Exception as e:
+            raise e</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="azure_strg_utils.azure_strg_utils.AzureStorageUtils.conditional_filter"><code class="name flex">
+<span>def <span class="ident">conditional_filter</span></span>(<span>self, container_name, blob_name, creation_date, comparison='less_than', file_regex=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Filter files based on certain criteria for deletion from Azure Blob Storage.
+It will return the list od file on which we can take any action like delete file,copy file,download file etc.</p>
+<h2 id="args">Args</h2>
+<ul>
+<li>container_name (str): Name of the container in Azure Blob Storage.</li>
+<li>blob_name (str): Blob name from which the files will be filtered.</li>
+<li>creation_date (str): Date for comparison in the format '%Y-%m-%d'.</li>
+<li>comparison (str, optional): The type of comparison for file filtering (default is 'less_than').</li>
+<li>file_regex (str, optional): The regex expression used to filter the files (default is None).</li>
+</ul>
+<h2 id="returns">Returns</h2>
+<ul>
+<li>list: A list of files filtered based on the specified criteria.</li>
+</ul>
+<h2 id="explanation">Explanation</h2>
+<p>This method filters files in the Azure Blob Storage based on the specified criteria.
+It retrieves a list of files from the blob specified by 'blob_name' in the 'container_name'.
+Then, it compares the creation date of each file with the 'creation_date' using the specified comparison
+operator (default is 'less_than'), and collects the files that meet the criteria for deletion/download.
+If 'file_regex' is provided, it further filters the files using the regex pattern.
+Returns a list of files that satisfy the criteria.</p>
+<h2 id="example">Example</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # get all files which have creation date greater than '2023-12-15'
+&gt;&gt;&gt; client.conditional_filter(
+    container_name='rawdata',
+    blob_name='raw',
+    creation_date='2023-12-15',
+    comparison='greater_than'
+    )
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def conditional_filter(self, container_name, blob_name, creation_date, comparison=&#39;less_than&#39;, file_regex=None):
+    &#34;&#34;&#34;
+    Filter files based on certain criteria for deletion from Azure Blob Storage.
+    It will return the list od file on which we can take any action like delete file,copy file,download file etc.
+
+    \n Args:
+        - container_name (str): Name of the container in Azure Blob Storage.
+        - blob_name (str): Blob name from which the files will be filtered.
+        - creation_date (str): Date for comparison in the format &#39;%Y-%m-%d&#39;.
+        - comparison (str, optional): The type of comparison for file filtering (default is &#39;less_than&#39;).
+        - file_regex (str, optional): The regex expression used to filter the files (default is None).
+
+    \n Returns:
+        - list: A list of files filtered based on the specified criteria.
+
+    \n Explanation:
+        This method filters files in the Azure Blob Storage based on the specified criteria.
+        It retrieves a list of files from the blob specified by &#39;blob_name&#39; in the &#39;container_name&#39;.
+        Then, it compares the creation date of each file with the &#39;creation_date&#39; using the specified comparison
+        operator (default is &#39;less_than&#39;), and collects the files that meet the criteria for deletion/download.
+        If &#39;file_regex&#39; is provided, it further filters the files using the regex pattern.
+        Returns a list of files that satisfy the criteria.
+
+    \n Example:
+        &gt;&gt;&gt; # get all files which have creation date greater than &#39;2023-12-15&#39;
+        &gt;&gt;&gt; client.conditional_filter(
+            container_name=&#39;rawdata&#39;,
+            blob_name=&#39;raw&#39;,
+            creation_date=&#39;2023-12-15&#39;,
+            comparison=&#39;greater_than&#39;
+            )
+
+    &#34;&#34;&#34;
+    try:
+        if comparison not in [&#39;less_than&#39;,&#39;less_than_or_equal&#39;,&#39;greater_than&#39;,&#39;greater_than_or_equal&#39;]:
+            raise ValueError(&#34;Invalid comparison operator. Use any one of them [&#39;less_than&#39;,&#39;less_than_or_equal&#39;,&#39;greater_than&#39;,&#39;greater_than_or_equal&#39;]&#34;)
+        
+        file_list = []
+        creation_date = datetime.strptime(creation_date, &#39;%Y-%m-%d&#39;).date()
+
+        container_client = self._client.get_container_client(container=container_name)
+        blob = container_client.list_blobs(name_starts_with=blob_name)
+        comparison_operator = utils._comparison_operator(comparison=comparison)
+
+        # Collect files based on date criteria
+        for file in blob:
+            if comparison_operator(file.creation_time.date(), creation_date):
+                file_name = file.name.replace(f&#34;{blob_name}/&#34;, &#39;&#39;)
+                if file_name != &#39;&#39; and file_name != blob_name:
+                    file_list.append(file_name)
+
+        # Filter files by regex pattern if provided
+        file_list = utils._filter_file(file_regex=file_regex, file_list=file_list)
+        return file_list
+    except Exception as e:
+        raise e</code></pre>
+</details>
+</dd>
+<dt id="azure_strg_utils.azure_strg_utils.AzureStorageUtils.conditional_operation"><code class="name flex">
+<span>def <span class="ident">conditional_operation</span></span>(<span>self, container_name, blob_name, creation_date, comparison='less_than', file_regex=None, action='download', path='download')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Perform conditional operations on files in Azure Blob Storage based on specified criteria.</p>
+<h2 id="args">Args</h2>
+<ul>
+<li>container_name (str): The name of the container in Azure Blob Storage.</li>
+<li>blob_name (str): The specific blob name in the container.</li>
+<li>creation_date (str): The creation date as a string in 'YYYY-MM-DD' format.</li>
+<li>comparison (str, optional): The type of comparison operator for date-based deletion.
+Possible values: 'less_than', 'less_than_or_equal',
+'greater_than', 'greater_than_or_equal', or any other value
+(defaults to 'less_than').</li>
+<li>file_regex (str, optional): Regex pattern to filter files for deletion. Defaults to None.</li>
+<li>action (str, optional): The action to perform - 'delete' or 'download'. Defaults to 'download'.</li>
+<li>path (str, optional): The path to download files when action is set to 'download'. Defaults to 'download'.</li>
+</ul>
+<h2 id="raises">Raises</h2>
+<ul>
+<li>Exception: If an error occurs during file deletion or download, it raises an exception.</li>
+</ul>
+<h2 id="returns">Returns</h2>
+<ul>
+<li>None: Performs file deletion or downloads files based on the specified action.</li>
+</ul>
+<h2 id="example">Example</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # download all files which have creation date greater than '2023-12-15'
+&gt;&gt;&gt; client.conditional_operation(
+    container_name='rawdata',
+    blob_name='raw',
+    creation_date='2023-12-15',
+    comparison='greater_than',
+    action='download',
+    path='data'
+    )
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # delete all files which have creation date less than '2023-12-15'
+&gt;&gt;&gt; client.conditional_operation(
+    container_name='rawdata',
+    blob_name='raw',
+    creation_date='2023-12-15',
+    comparison='less_than',
+    action='delete'
+    )
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # download all files which have creation date greater than '2023-12-15' and whose name start with 'cust'
+&gt;&gt;&gt; client.conditional_operation(
+    container_name='rawdata',
+    blob_name='raw',
+    creation_date='2023-12-15',
+    comparison='greater_than',
+    action='download',
+    path='data',
+    file_regex='cust*'
+    )
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # delete all files which have creation date less than '2023-12-15' and whose name start with 'cust'
+&gt;&gt;&gt; client.conditional_operation(
+    container_name='rawdata',
+    blob_name='raw',
+    creation_date='2023-12-15',
+    comparison='less_than',
+    action='delete',
+    file_regex='cust*'
+    )
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def conditional_operation(self, 
+                          container_name, 
+                          blob_name, 
+                          creation_date, 
+                          comparison=&#39;less_than&#39;, 
+                          file_regex=None,
+                          action=&#39;download&#39;,
+                          path=&#39;download&#39;):
+        &#34;&#34;&#34;
+        Perform conditional operations on files in Azure Blob Storage based on specified criteria.
+        \n Args:
+            - container_name (str): The name of the container in Azure Blob Storage.
+            - blob_name (str): The specific blob name in the container.
+            - creation_date (str): The creation date as a string in &#39;YYYY-MM-DD&#39; format.
+            - comparison (str, optional): The type of comparison operator for date-based deletion.
+                                        Possible values: &#39;less_than&#39;, &#39;less_than_or_equal&#39;,
+                                        &#39;greater_than&#39;, &#39;greater_than_or_equal&#39;, or any other value
+                                        (defaults to &#39;less_than&#39;).
+            - file_regex (str, optional): Regex pattern to filter files for deletion. Defaults to None.
+            - action (str, optional): The action to perform - &#39;delete&#39; or &#39;download&#39;. Defaults to &#39;download&#39;.
+            - path (str, optional): The path to download files when action is set to &#39;download&#39;. Defaults to &#39;download&#39;.
+
+        \n Raises:
+            - Exception: If an error occurs during file deletion or download, it raises an exception.
+
+        \n Returns:
+            - None: Performs file deletion or downloads files based on the specified action.
+
+    \n Example:
+        &gt;&gt;&gt; # download all files which have creation date greater than &#39;2023-12-15&#39;
+        &gt;&gt;&gt; client.conditional_operation(
+            container_name=&#39;rawdata&#39;,
+            blob_name=&#39;raw&#39;,
+            creation_date=&#39;2023-12-15&#39;,
+            comparison=&#39;greater_than&#39;,
+            action=&#39;download&#39;,
+            path=&#39;data&#39;
+            )
+
+        &gt;&gt;&gt; # delete all files which have creation date less than &#39;2023-12-15&#39;
+        &gt;&gt;&gt; client.conditional_operation(
+            container_name=&#39;rawdata&#39;,
+            blob_name=&#39;raw&#39;,
+            creation_date=&#39;2023-12-15&#39;,
+            comparison=&#39;less_than&#39;,
+            action=&#39;delete&#39;
+            )
+
+        &gt;&gt;&gt; # download all files which have creation date greater than &#39;2023-12-15&#39; and whose name start with &#39;cust&#39;
+        &gt;&gt;&gt; client.conditional_operation(
+            container_name=&#39;rawdata&#39;,
+            blob_name=&#39;raw&#39;,
+            creation_date=&#39;2023-12-15&#39;,
+            comparison=&#39;greater_than&#39;,
+            action=&#39;download&#39;,
+            path=&#39;data&#39;,
+            file_regex=&#39;cust*&#39;
+            )
+
+        &gt;&gt;&gt; # delete all files which have creation date less than &#39;2023-12-15&#39; and whose name start with &#39;cust&#39;
+        &gt;&gt;&gt; client.conditional_operation(
+            container_name=&#39;rawdata&#39;,
+            blob_name=&#39;raw&#39;,
+            creation_date=&#39;2023-12-15&#39;,
+            comparison=&#39;less_than&#39;,
+            action=&#39;delete&#39;,
+            file_regex=&#39;cust*&#39;
+            )
+        &#34;&#34;&#34;
+        try:
+            file_list=self.conditional_filter(container_name, blob_name, creation_date, comparison, file_regex)
+            
+            if action==&#39;delete&#39;:
+                for file in file_list:
+                    self.delete_file(container_name=container_name,blob_name=blob_name,file_name=file)
+                print(f&#39;{len(file_list)} files deleted from container: {container_name} successfully&#39;)
+
+            elif action==&#39;download&#39;:
+                for file in file_list:
+                    self.download_file(container_name=container_name,blob_name=blob_name,file_name=file,path=path)
+                print(f&#39;{len(file_list)} files downloaded from container: {container_name} successfully&#39;)
+            else:
+                raise ValueError(&#34;Not a valid action type. Supported action types are [&#39;download&#39;,&#39;delete&#39;].&#34;)
+        except Exception as e:
+            message = f&#39;Error while {action} the file!!,{e}&#39;
+            raise ConditionalOperationError(message)</code></pre>
+</details>
+</dd>
+<dt id="azure_strg_utils.azure_strg_utils.AzureStorageUtils.copy_blob"><code class="name flex">
+<span>def <span class="ident">copy_blob</span></span>(<span>self, container_name, blob_name, destination_container, destination_blob, creation_date: str = None, comparison: str = 'less_than', file_name: str = None, all_files: bool = False, file_regex: str = None, abort_after: int = 100, delete_file: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Copy files or specific file from one Azure Blob Storage container to another.</p>
+<h2 id="args">Args</h2>
+<ul>
+<li>container_name (str): Source container name.</li>
+<li>blob_name (str): Source blob name or pattern to filter files.</li>
+<li>destination_container (str): Destination container name.</li>
+<li>destination_blob (str): Destination blob name.</li>
+</ul>
+<h2 id="kwargs">Kwargs</h2>
+<ul>
+<li>file_name (str, optional): Specific file name to copy. Default is None.</li>
+<li>all_files (bool, optional): If True, copy all files from the source blob. Default is False.</li>
+<li>file_regex (str, optional): Regex pattern to filter files for copying.</li>
+<li>abort_after (int, optional): Abort the copy after given time (in seconds). Default is 100 seconds.</li>
+<li>delete_file (boolean,optional): Delete the file after copy. Default False.</li>
+</ul>
+<h2 id="raises">Raises</h2>
+<ul>
+<li>Exception: Raises an exception if an error occurs during the copying process.</li>
+</ul>
+<h2 id="example">Example</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # copy the sales_data.csv file from container 'rawdata' to 'destination_container'
+&gt;&gt;&gt; status=client.copy_blob(
+    container_name='rawdata',
+    blob_name='raw',
+    destination_container='new-test',
+    destination_blob='raw',
+    file_name='sales_data.csv'
+    )
+    print(status)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # copy the sales_data.csv file from container 'rawdata' to destination container 'new-test'
+&gt;&gt;&gt; # and delete the file after copy from source container 'rawdata'
+&gt;&gt;&gt; status=client.copy_blob(
+    container_name='rawdata',
+    blob_name='raw',
+    destination_container='new-test',
+    destination_blob='raw',
+    file_name='sales_data.csv',
+    delete_file=True
+    )
+    print(status)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # copy the all files from container 'rawdata' to destination container 'new-test'
+&gt;&gt;&gt; status=client.copy_blob(
+    container_name='rawdata',
+    blob_name='raw',
+    destination_container='new-test',
+    destination_blob='raw',
+    all_files=True
+    )
+    print(status)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # copy the all files from container 'rawdata' to destination container 'new-test' and whose name start with 'cust'.
+&gt;&gt;&gt; status=client.copy_blob(
+    container_name='rawdata',
+    blob_name='raw',
+    destination_container='new-test',
+    destination_blob='raw',
+    all_files=True,
+    file_regex='cust*
+    )
+    print(status)
+</code></pre>
+<p>Note: Priority will be all_files &gt; creation_date &gt; file_name</p>
+<p>Abort time by default is 100s which can be changes using 'abort_after' parameter.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def copy_blob(self,container_name,
+              blob_name,
+              destination_container,
+              destination_blob,
+              creation_date:str=None,
+              comparison:str=&#39;less_than&#39;,
+              file_name:str=None,
+              all_files:bool=False,
+              file_regex:str=None,
+              abort_after:int=100,
+              delete_file:bool=False
+              ):
+    &#34;&#34;&#34;
+    Copy files or specific file from one Azure Blob Storage container to another.
+    
+    \n Args:
+        - container_name (str): Source container name.
+        - blob_name (str): Source blob name or pattern to filter files.
+        - destination_container (str): Destination container name.
+        - destination_blob (str): Destination blob name.
+    \n Kwargs:
+        - file_name (str, optional): Specific file name to copy. Default is None.
+        - all_files (bool, optional): If True, copy all files from the source blob. Default is False.
+        - file_regex (str, optional): Regex pattern to filter files for copying.
+        - abort_after (int, optional): Abort the copy after given time (in seconds). Default is 100 seconds.
+        - delete_file (boolean,optional): Delete the file after copy. Default False.
+    \n Raises:
+        - Exception: Raises an exception if an error occurs during the copying process.
+
+    \n Example:
+        &gt;&gt;&gt; # copy the sales_data.csv file from container &#39;rawdata&#39; to &#39;destination_container&#39;
+        &gt;&gt;&gt; status=client.copy_blob(
+            container_name=&#39;rawdata&#39;,
+            blob_name=&#39;raw&#39;,
+            destination_container=&#39;new-test&#39;,
+            destination_blob=&#39;raw&#39;,
+            file_name=&#39;sales_data.csv&#39;
+            )
+            print(status)
+
+        &gt;&gt;&gt; # copy the sales_data.csv file from container &#39;rawdata&#39; to destination container &#39;new-test&#39;
+        &gt;&gt;&gt; # and delete the file after copy from source container &#39;rawdata&#39;
+        &gt;&gt;&gt; status=client.copy_blob(
+            container_name=&#39;rawdata&#39;,
+            blob_name=&#39;raw&#39;,
+            destination_container=&#39;new-test&#39;,
+            destination_blob=&#39;raw&#39;,
+            file_name=&#39;sales_data.csv&#39;,
+            delete_file=True
+            )
+            print(status)
+
+        &gt;&gt;&gt; # copy the all files from container &#39;rawdata&#39; to destination container &#39;new-test&#39;
+        &gt;&gt;&gt; status=client.copy_blob(
+            container_name=&#39;rawdata&#39;,
+            blob_name=&#39;raw&#39;,
+            destination_container=&#39;new-test&#39;,
+            destination_blob=&#39;raw&#39;,
+            all_files=True
+            )
+            print(status)
+
+        &gt;&gt;&gt; # copy the all files from container &#39;rawdata&#39; to destination container &#39;new-test&#39; and whose name start with &#39;cust&#39;.
+        &gt;&gt;&gt; status=client.copy_blob(
+            container_name=&#39;rawdata&#39;,
+            blob_name=&#39;raw&#39;,
+            destination_container=&#39;new-test&#39;,
+            destination_blob=&#39;raw&#39;,
+            all_files=True,
+            file_regex=&#39;cust*
+            )
+            print(status)
+    \n Note: Priority will be all_files &gt; creation_date &gt; file_name
+    \n Abort time by default is 100s which can be changes using &#39;abort_after&#39; parameter.
+
+    &#34;&#34;&#34;
+    try:
+        file_status=[]
+        if all_files:
+            file_list=self.list_files(container_name,blob_name)
+            file_list=utils._filter_file(file_regex,file_list)
+
+            for file in file_list:
+                # source and destination client
+                source_blob_client=self._client.get_blob_client(container=container_name,blob=f&#39;{blob_name}/{file}&#39;)
+                destination_blob_client=self._client.get_blob_client(container=destination_container,blob=f&#39;{destination_blob}/{file}&#39;)
+
+                # copy file
+                result=destination_blob_client.start_copy_from_url(source_url=source_blob_client.url)
+                if delete_file:
+                    self.delete_file(container_name=container_name,blob_name=blob_name,file_name=file_name)
+                
+                # append extra info in result dict
+                result[&#39;File Name&#39;]=file
+                result[&#39;Timestamp&#39;]=currentTime
+                file_status.append(result)
+            print(f&#39;{len(file_list)} files copied successfully&#39;)
+        elif creation_date!=None:
+            file_list=self.conditional_filter(container_name, blob_name, creation_date, comparison, file_regex)
+            for file in file_list:
+                # source and destination client
+                source_blob_client=self._client.get_blob_client(container=container_name,blob=f&#39;{blob_name}/{file}&#39;)
+                destination_blob_client=self._client.get_blob_client(container=destination_container,blob=f&#39;{destination_blob}/{file}&#39;)
+
+                # copy file
+                result=destination_blob_client.start_copy_from_url(source_url=source_blob_client.url)
+                if delete_file:
+                    self.delete_file(container_name=container_name,blob_name=blob_name,file_name=file_name)
+
+                # append extra info in result dict
+                result[&#39;File Name&#39;]=file
+                result[&#39;Timestamp&#39;]=currentTime
+                file_status.append(result)
+            print(f&#39;{len(file_list)} files copied successfully&#39;)
+        else:
+            if file_name!=None:
+                # source and destination client
+                source_blob_client=self._client.get_blob_client(container=container_name,blob=f&#39;{blob_name}/{file_name}&#39;)
+                destination_blob_client=self._client.get_blob_client(container=destination_container,blob=f&#39;{destination_blob}/{file_name}&#39;)
+
+                # copy and delete the file
+                result=destination_blob_client.start_copy_from_url(source_url=source_blob_client.url)
+                if abort_after:
+                    abort_result=utils._abort_copy(blob_client=destination_blob_client,abort_time=abort_after)
+                    if abort_result:
+                        if delete_file:
+                            self.delete_file(container_name=container_name,blob_name=blob_name,file_name=file_name)
+                        print(f&#39;{file_name} file copied from container: {container_name}/{blob_name} to {destination_container}/{destination_blob}&#39;)
+                    else:
+                        print(&#39;Copy operation aborted!!.&#39;)
+                        return file_status
+                    
+                # append extra info in result dict
+                result[&#39;File Name&#39;]=file_name
+                result[&#39;Timestamp&#39;]=currentTime
+                file_status.append(result)
+            else:
+                raise ValueError(&#39;Invalid file name.&#39;)
+        return file_status
+    except Exception as e:
+        raise e</code></pre>
+</details>
+</dd>
+<dt id="azure_strg_utils.azure_strg_utils.AzureStorageUtils.create_container"><code class="name flex">
+<span>def <span class="ident">create_container</span></span>(<span>self, container_name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create a container in Azure Storage.</p>
+<h2 id="args">Args</h2>
+<ul>
+<li>container_name (str): Name of the new container.</li>
+</ul>
+<h2 id="example">Example</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # create new container test2
+&gt;&gt;&gt; client.create_container(container_name='test2')
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_container(self,container_name):
+    &#34;&#34;&#34;
+    Create a container in Azure Storage.
+    \n Args:
+        - container_name (str): Name of the new container.
+    \n Example:
+        &gt;&gt;&gt; # create new container test2
+        &gt;&gt;&gt; client.create_container(container_name=&#39;test2&#39;)
+    &#34;&#34;&#34;
+    try:
+        # create containers
+        self._client.create_container(container_name)
+        # list containers
+        container_list=self.list_container()
+        print(f&#39;Available containers: {container_list}&#39;)
+    except Exception as e:
+        raise e</code></pre>
+</details>
+</dd>
+<dt id="azure_strg_utils.azure_strg_utils.AzureStorageUtils.delete_container"><code class="name flex">
+<span>def <span class="ident">delete_container</span></span>(<span>self, container_name: str = None, all_containers: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Delete a container from Azure Storage.</p>
+<h2 id="args">Args</h2>
+<ul>
+<li>container_name (str): Name of the container to be deleted.</li>
+</ul>
+<h2 id="kwargs">Kwargs</h2>
+<ul>
+<li>all_container (bool, optional): If True, delete all containers. Default is False.</li>
+</ul>
+<h2 id="example">Example</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # delete container test2
+&gt;&gt;&gt; client.delete_container(container_name='test2')
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # delete all container
+&gt;&gt;&gt; client.delete_container(all_containers=True)
+</code></pre>
+<p>Note: We carefull while using this method as it will delete the container and its file.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def delete_container(self,container_name:str=None,all_containers:bool=False):
+    &#34;&#34;&#34;
+    Delete a container from Azure Storage.
+
+    \n Args:
+        - container_name (str): Name of the container to be deleted.
+    \n Kwargs:
+        - all_container (bool, optional): If True, delete all containers. Default is False.
+    \n Example:
+        &gt;&gt;&gt; # delete container test2
+        &gt;&gt;&gt; client.delete_container(container_name=&#39;test2&#39;)
+
+        &gt;&gt;&gt; # delete all container
+        &gt;&gt;&gt; client.delete_container(all_containers=True)
+    \n Note: We carefull while using this method as it will delete the container and its file.
+    &#34;&#34;&#34;
+
+    try:
+        if all_containers:
+            containers=self.list_container()
+            print(f&#39;Deleting {len(containers)} containers&#39;)
+
+            for container in containers:
+                container_client=self._client.get_container_client(container=container)
+                container_client.delete_container()
+                print(f&#39;Container {container_name} deleted successfully!!&#39;)
+        else:
+            # delete container
+            container_client=self._client.get_container_client(container=container_name)
+            container_client.delete_container()
+            print(f&#39;Container {container_name} deleted successfully!!&#39;)
+
+            # list containers
+            container_list=self.list_container()
+            print(f&#39;Available containers: {container_list}&#39;)
+    except Exception as e:
+        raise e</code></pre>
+</details>
+</dd>
+<dt id="azure_strg_utils.azure_strg_utils.AzureStorageUtils.delete_file"><code class="name flex">
+<span>def <span class="ident">delete_file</span></span>(<span>self, container_name, blob_name, file_name: str = None, all_files: bool = False, file_regex: str = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Delete files from Azure Blob Storage.</p>
+<h2 id="args">Args</h2>
+<ul>
+<li>container_name (str): Container name.</li>
+<li>blob_name (str): Blob name from which the file will be deleted.</li>
+<li>file_name (str): File name to be deleted.</li>
+</ul>
+<h2 id="kwargs">Kwargs</h2>
+<ul>
+<li>all_files (bool, optional): If True, delete all files from the given blob. Default is False.</li>
+<li>file_regex (str, optional): You can pass the regex expresion to filter the files</li>
+</ul>
+<h2 id="example">Example</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # delete all files present inside a blob
+&gt;&gt;&gt; client.delete_file(
+    container_name='rawdata',
+    blob_name='raw',
+    all_files=True
+    )
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # delete single files present inside a blob
+&gt;&gt;&gt; client.delete_file(
+    container_name='rawdata',
+    blob_name='raw',
+    file_name='Product_data.csv'
+    )
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # delete all files present inside a blob whose name start with 'cust'
+&gt;&gt;&gt; client.delete_file(
+    container_name='rawdata',
+    blob_name='raw',
+    all_files=True,
+    file_regex='cust*'
+    )
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def delete_file(self,container_name,blob_name,file_name:str=None,all_files:bool=False,file_regex:str=None):
+    &#34;&#34;&#34;
+    Delete files from Azure Blob Storage.
+    \n Args:
+        - container_name (str): Container name.
+        - blob_name (str): Blob name from which the file will be deleted.
+        - file_name (str): File name to be deleted.
+
+    \n Kwargs:
+        - all_files (bool, optional): If True, delete all files from the given blob. Default is False.
+        - file_regex (str, optional): You can pass the regex expresion to filter the files
+
+    \n Example:
+        &gt;&gt;&gt; # delete all files present inside a blob
+        &gt;&gt;&gt; client.delete_file(
+            container_name=&#39;rawdata&#39;,
+            blob_name=&#39;raw&#39;,
+            all_files=True
+            )
+
+        &gt;&gt;&gt; # delete single files present inside a blob
+        &gt;&gt;&gt; client.delete_file(
+            container_name=&#39;rawdata&#39;,
+            blob_name=&#39;raw&#39;,
+            file_name=&#39;Product_data.csv&#39;
+            )
+
+        &gt;&gt;&gt; # delete all files present inside a blob whose name start with &#39;cust&#39;
+        &gt;&gt;&gt; client.delete_file(
+            container_name=&#39;rawdata&#39;,
+            blob_name=&#39;raw&#39;,
+            all_files=True,
+            file_regex=&#39;cust*&#39;
+            )
+    &#34;&#34;&#34;
+
+    try:
+        result=False
+        if all_files:
+            file_list=self.list_files(container_name=container_name,blob_name=blob_name)
+            file_list=utils._filter_file(file_regex=file_regex,file_list=file_list)
+            print(file_list)
+            for file in file_list:
+                blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file}&#34;)
+                blob_client.delete_blob(delete_snapshots=&#39;include&#39;)
+
+            print(f&#39;{len(file_list)} files deleted from container: {container_name} successfully&#39;)
+            result=True
+        else:
+            blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file_name}&#34;)
+            blob_client.delete_blob(delete_snapshots=&#39;include&#39;)
+            print(f&#39;{file_name} deleted from container: {container_name} successfully&#39;)
+            result=True
+    except Exception as e:
+        message=f&#39;Error while deleting the file!!,{e}&#39;
+        raise DeleteFileError(message)
+    return result</code></pre>
+</details>
+</dd>
+<dt id="azure_strg_utils.azure_strg_utils.AzureStorageUtils.download_file"><code class="name flex">
+<span>def <span class="ident">download_file</span></span>(<span>self, container_name, blob_name, file_name: str = None, path: str = 'download', is_dataframe: bool = False, all_files: bool = False, file_regex: str = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Download a file/all files from Azure Blob Storage.</p>
+<h2 id="args">Args</h2>
+<ul>
+<li>container_name (str): Container name.</li>
+<li>blob_name (str): Blob name.</li>
+<li>file_name (str): File name to be downloaded.</li>
+</ul>
+<h2 id="kwargs">Kwargs</h2>
+<ul>
+<li>path (str, optional): Location where the file will be saved. Default is './download'.</li>
+<li>is_dataframe (bool, optional): Return a dataframe without downloading the file. Default is False.</li>
+<li>all_files (bool, optional): download all file present in a blob</li>
+<li>file_regex (str, optional): You can pass the regex expresion to filter the files</li>
+</ul>
+<h2 id="example">Example</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # download sales_data.csv file from test blob into test folder
+&gt;&gt;&gt; client.download_file(
+    container_name='rawdata',
+    blob_name='test',
+    file_name='sales_data.csv',
+    path='test')
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # download all files present in 'raw' blob
+&gt;&gt;&gt; client.download_file(
+    container_name='rawdata',
+    blob_name='raw',
+    path='downloaded',
+    all_files=True
+    )
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # download all files from 'raw' folder whose name start with 'cust'
+&gt;&gt;&gt; client.download_file(
+    container_name='rawdata',
+    blob_name='raw',
+    all_files=True,
+    path='downloaded',
+    file_regex='cust*'
+    )
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # return a pandas dataframe
+&gt;&gt;&gt; df=client.download_file(
+            container_name='rawdata',
+            blob_name='raw',
+            file_name='cars_new.csv',
+            is_dataframe=True
+            )
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def download_file(self,container_name,
+                  blob_name,
+                  file_name:str=None,
+                  path:str=&#39;download&#39;,
+                  is_dataframe:bool=False,
+                  all_files:bool=False,
+                  file_regex:str=None):
+    &#34;&#34;&#34;
+    \n Download a file/all files from Azure Blob Storage.
+    \n Args:
+        - container_name (str): Container name.
+        - blob_name (str): Blob name.
+        - file_name (str): File name to be downloaded.
+
+    \n Kwargs:
+        - path (str, optional): Location where the file will be saved. Default is &#39;./download&#39;.
+        - is_dataframe (bool, optional): Return a dataframe without downloading the file. Default is False.
+        - all_files (bool, optional): download all file present in a blob
+        - file_regex (str, optional): You can pass the regex expresion to filter the files
+
+    \n Example:
+        &gt;&gt;&gt; # download sales_data.csv file from test blob into test folder
+        &gt;&gt;&gt; client.download_file(
+            container_name=&#39;rawdata&#39;,
+            blob_name=&#39;test&#39;,
+            file_name=&#39;sales_data.csv&#39;,
+            path=&#39;test&#39;)
+
+        &gt;&gt;&gt; # download all files present in &#39;raw&#39; blob
+        &gt;&gt;&gt; client.download_file(
+            container_name=&#39;rawdata&#39;,
+            blob_name=&#39;raw&#39;,
+            path=&#39;downloaded&#39;,
+            all_files=True
+            )
+
+        &gt;&gt;&gt; # download all files from &#39;raw&#39; folder whose name start with &#39;cust&#39;
+        &gt;&gt;&gt; client.download_file(
+            container_name=&#39;rawdata&#39;,
+            blob_name=&#39;raw&#39;,
+            all_files=True,
+            path=&#39;downloaded&#39;,
+            file_regex=&#39;cust*&#39;
+            )
+
+        &gt;&gt;&gt; # return a pandas dataframe
+        &gt;&gt;&gt; df=client.download_file(
+                    container_name=&#39;rawdata&#39;,
+                    blob_name=&#39;raw&#39;,
+                    file_name=&#39;cars_new.csv&#39;,
+                    is_dataframe=True
+                    )
+    &#34;&#34;&#34;
+
+    try:
+        if not is_dataframe:
+            full_path = os.path.join(os.getcwd(),f&#34;{path}/{blob_name}&#34;)
+            current_path=full_path
+            if not os.path.exists(full_path):
+                os.makedirs(full_path)
+        is_data=False
+        if is_dataframe:
+            blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file_name}&#34;)
+            stream = BytesIO()
+            blob_client.download_blob().readinto(stream)
+            stream.seek(0)
+            df=utils._read_file(file_name,stream)
+            return df
+        
+        elif all_files:
+            file_list=self.list_files(container_name=container_name,blob_name=blob_name)
+            file_list=utils._filter_file(file_regex=file_regex,file_list=file_list)
+
+            count=0
+            for file in file_list:
+                current_path=full_path
+                is_data=False
+            # Creating directories and moving files
+                if &#39;/&#39; in file:
+                    if &#39;.&#39; not in file:
+                        current_path = os.path.join(current_path, file)
+                        if not os.path.exists(current_path):
+                            os.makedirs(current_path)
+                    else:
+                        current_path = os.path.join(current_path, file)
+
+                        blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file}&#34;)
+                        try:
+                            data=blob_client.download_blob().readall()
+                            is_data=True
+                        except Exception as e:
+                            raise e
+                        if is_data:
+                            with open(current_path,&#34;wb&#34;) as f:
+                                f.write(data)
+                                count=count+1
+
+                elif &#39;.&#39; not in file:
+                    current_path = os.path.join(current_path, file)
+                    if not os.path.exists(current_path):
+                            os.makedirs(current_path)
+                else:
+
+                    blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file}&#34;)
+                    try:
+                        data=blob_client.download_blob().readall()
+                        is_data=True
+                    except Exception as e:
+                        raise e
+
+                    if is_data:
+                        with open(f&#34;{full_path}/{file}&#34;,&#34;wb&#34;) as f:
+                            f.write(data)
+                            count=count+1
+            print(f&#39;{count} files downloaded from container: {container_name} successfully&#39;)
+        else:
+            if file_name and not isinstance(file_name, int) and file_name.strip():
+                try:
+                    blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file_name}&#34;)
+                    data=blob_client.download_blob().readall()
+                    is_data=True
+                except Exception as e:
+                    raise e
+
+                if is_data:
+                    with open(f&#34;{full_path}/{file_name}&#34;,&#34;wb&#34;) as f:
+                        f.write(data)
+                    print(f&#39;{file_name} downloaded from container: {container_name} successfully&#39;)
+            else:
+                raise ValueError(&#39;Invalid file name!!&#39;)
+    except Exception as e:
+        raise e</code></pre>
+</details>
+</dd>
+<dt id="azure_strg_utils.azure_strg_utils.AzureStorageUtils.list_blobs"><code class="name flex">
+<span>def <span class="ident">list_blobs</span></span>(<span>self, container_name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the list of blobs/folders present in a container.</p>
+<h2 id="args">Args</h2>
+<ul>
+<li>container_name (str): Container name.</li>
+</ul>
+<h2 id="returns">Returns</h2>
+<ul>
+<li>List of blobs/folders.</li>
+</ul>
+<h2 id="example">Example</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; container = client.list_blobs()
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def list_blobs(self,container_name):
+    &#34;&#34;&#34;
+    Get the list of blobs/folders present in a container.
+
+    \n Args:
+        - container_name (str): Container name.
+
+    \n Returns:
+        - List of blobs/folders.
+
+    \n Example:
+        &gt;&gt;&gt; container = client.list_blobs()
+    &#34;&#34;&#34;
+
+    folder_list=[]
+    try:
+        container_client=self._client.get_container_client(container_name)
+        blob=container_client.list_blobs()
+        folder_list=[file.name.split(&#39;/&#39;)[0] for file in blob]
+    except Exception as e:
+        raise e
+    return list(set(folder_list))</code></pre>
+</details>
+</dd>
+<dt id="azure_strg_utils.azure_strg_utils.AzureStorageUtils.list_container"><code class="name flex">
+<span>def <span class="ident">list_container</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the list of containers present in the storage account.</p>
+<h2 id="returns">Returns</h2>
+<ul>
+<li>List of containers.</li>
+</ul>
+<h2 id="example">Example</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; container = client.list_containers()
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def list_container(self):
+    &#34;&#34;&#34;
+    \n Get the list of containers present in the storage account.
+
+    \n Returns:
+        - List of containers.
+
+    \n Example:
+        &gt;&gt;&gt; container = client.list_containers()
+    &#34;&#34;&#34;
+    containers_list=[]
+    try:
+        containers = self._client.list_containers()
+        containers_list=[container.name for container in containers]
+    except Exception as e:
+        raise e
+    return containers_list</code></pre>
+</details>
+</dd>
+<dt id="azure_strg_utils.azure_strg_utils.AzureStorageUtils.list_files"><code class="name flex">
+<span>def <span class="ident">list_files</span></span>(<span>self, container_name, blob_name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the list of blobs/folders present in a container.</p>
+<h2 id="args">Args</h2>
+<ul>
+<li>container_name (str): Container name.</li>
+<li>blob_name (str): Blob name.</li>
+</ul>
+<h2 id="returns">Returns</h2>
+<ul>
+<li>List of blobs/folders.</li>
+</ul>
+<h2 id="example">Example</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Get the list of files in a container
+&gt;&gt;&gt; container_name = &quot;your_container_name&quot;
+&gt;&gt;&gt; blob_name = &quot;your_blob_name&quot;
+&gt;&gt;&gt; files = storage_utils.list_files(container_name, blob_name)
+&gt;&gt;&gt; print(files)
+['file1.txt', 'file2.csv', 'folder1', 'folder2']
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def list_files(self, container_name, blob_name):
+    &#34;&#34;&#34;
+    Get the list of blobs/folders present in a container.
+
+    \n Args:
+        - container_name (str): Container name.
+        - blob_name (str): Blob name.
+
+    \n Returns:
+        - List of blobs/folders.
+
+    \n Example:
+        &gt;&gt;&gt; # Get the list of files in a container
+        &gt;&gt;&gt; container_name = &#34;your_container_name&#34;
+        &gt;&gt;&gt; blob_name = &#34;your_blob_name&#34;
+        &gt;&gt;&gt; files = storage_utils.list_files(container_name, blob_name)
+        &gt;&gt;&gt; print(files)
+        [&#39;file1.txt&#39;, &#39;file2.csv&#39;, &#39;folder1&#39;, &#39;folder2&#39;]
+    &#34;&#34;&#34;
+    files=[]
+    try:
+        container_client=self._client.get_container_client(container=container_name)
+        blob=container_client.list_blobs(name_starts_with=blob_name)
+        for file in blob:
+            # name_starts_with will retrun all the matching blobs, to filter out specific blob we can split by /
+            if file.name.split(&#34;/&#34;)[0]==blob_name:
+                file_name=file.name.replace(f&#34;{blob_name}/&#34;,&#39;&#39;)
+                if file_name!=&#39;&#39; and file_name!=blob_name:
+                    files.append(file_name)
+    except Exception as e:
+        raise e
+    return files</code></pre>
+</details>
+</dd>
+<dt id="azure_strg_utils.azure_strg_utils.AzureStorageUtils.upload_dataframe"><code class="name flex">
+<span>def <span class="ident">upload_dataframe</span></span>(<span>self, dataframe, file_name, container_name, blob_name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Uploads a Pandas DataFrame to Azure Blob Storage.</p>
+<h2 id="args">Args</h2>
+<ul>
+<li>dataframe (pd.DataFrame): The Pandas DataFrame to be uploaded.</li>
+<li>file_name (str): The name of the file to be created in the blob storage.</li>
+<li>container_name (str): The name of the Azure Blob Storage container.</li>
+<li>blob_name (str): The name of the blob within the specified container.</li>
+</ul>
+<h2 id="raises">Raises</h2>
+<ul>
+<li>Exception: If an error occurs during the uploading process.</li>
+</ul>
+<h2 id="example">Example</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Upload the Pandas dataframe to blob processed in XML format.
+&gt;&gt;&gt; # supported format are CSV,JSON,XML.
+&gt;&gt;&gt; result=client.upload_dataframe(
+                    dataframe=df,
+                    file_name='cars.xml',
+                    container_name='rawdata',
+                    blob_name='processed'
+                    )
+    print(result)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def upload_dataframe(self,dataframe,file_name,container_name,blob_name):
+    &#34;&#34;&#34;
+    Uploads a Pandas DataFrame to Azure Blob Storage.
+
+    \n Args:
+        - dataframe (pd.DataFrame): The Pandas DataFrame to be uploaded.
+        - file_name (str): The name of the file to be created in the blob storage.
+        - container_name (str): The name of the Azure Blob Storage container.
+        - blob_name (str): The name of the blob within the specified container.
+    \n Raises:
+        - Exception: If an error occurs during the uploading process.
+    \n Example:
+        &gt;&gt;&gt; # Upload the Pandas dataframe to blob processed in XML format.
+        &gt;&gt;&gt; # supported format are CSV,JSON,XML.
+        &gt;&gt;&gt; result=client.upload_dataframe(
+                            dataframe=df,
+                            file_name=&#39;cars.xml&#39;,
+                            container_name=&#39;rawdata&#39;,
+                            blob_name=&#39;processed&#39;
+                            )
+            print(result)
+    &#34;&#34;&#34;
+    try:
+        format=file_name.split(&#34;.&#34;)[-1]
+        if isinstance(dataframe,pd.DataFrame):
+            print(&#39;Uploading the dataframe.&#39;)
+            file_content = BytesIO()
+            utils._save_dataframe(file_content,dataframe,format)
+            file_content.seek(0)
+            blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file_name}&#34;)
+            result=blob_client.upload_blob(data=file_content,overwrite=True)
+            return result
+    except Exception as e:
+        raise e    </code></pre>
+</details>
+</dd>
+<dt id="azure_strg_utils.azure_strg_utils.AzureStorageUtils.upload_file"><code class="name flex">
+<span>def <span class="ident">upload_file</span></span>(<span>self, container_name, blob_name, file_path, file_name: str = None, all_files: bool = False, file_regex: str = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Upload a file from a local directory to Azure Blob Storage.</p>
+<h2 id="args">Args</h2>
+<ul>
+<li>container_name (str): Container name.</li>
+<li>blob_name (str): Blob name.</li>
+<li>file_path (str): Local file path.</li>
+</ul>
+<h2 id="kwargs">Kwargs</h2>
+<ul>
+<li>file_name (str, optional): File name. Default is None.</li>
+<li>all_files (bool, optional): If True, upload all files from the given directory. Default is False.</li>
+<li>file_regex (str, optional): You can pass the regex expresion to filter the files</li>
+</ul>
+<h2 id="example">Example</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # upload single file 'cars_new.csv' from specified path file_path 'data' into blob/folder 'raw' 
+&gt;&gt;&gt; client.upload_file(
+    container_name='rawdata',
+    blob_name='test',
+    file_name='cars_new.csv',
+    file_path='data'
+    )
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # upload all file present inside data folder
+&gt;&gt;&gt; file_status=client.upload_file(
+                        container_name='rawdata',
+                        blob_name='test_new',
+                        all_files=True,
+                        file_path='data'
+                        )
+    print(file_status)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # upload all files whose name start with 'cust*' from specified folder to specified blob
+&gt;&gt;&gt; file_status=client.upload_file(
+    container_name='rawdata',
+    blob_name='raw',
+    all_files=True,
+    file_path='data',
+    file_regex='cust*'
+    )
+    print(file_status)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def upload_file(self,container_name,blob_name,file_path,file_name:str=None,all_files:bool=False,file_regex:str=None):
+    &#34;&#34;&#34;
+    Upload a file from a local directory to Azure Blob Storage.
+    \n Args:
+        - container_name (str): Container name.
+        - blob_name (str): Blob name.
+        - file_path (str): Local file path.
+
+    \n Kwargs:
+        - file_name (str, optional): File name. Default is None.
+        - all_files (bool, optional): If True, upload all files from the given directory. Default is False.
+        - file_regex (str, optional): You can pass the regex expresion to filter the files
+
+    \n Example:
+        &gt;&gt;&gt; # upload single file &#39;cars_new.csv&#39; from specified path file_path &#39;data&#39; into blob/folder &#39;raw&#39; 
+        &gt;&gt;&gt; client.upload_file(
+            container_name=&#39;rawdata&#39;,
+            blob_name=&#39;test&#39;,
+            file_name=&#39;cars_new.csv&#39;,
+            file_path=&#39;data&#39;
+            )
+
+        &gt;&gt;&gt; # upload all file present inside data folder
+        &gt;&gt;&gt; file_status=client.upload_file(
+                                container_name=&#39;rawdata&#39;,
+                                blob_name=&#39;test_new&#39;,
+                                all_files=True,
+                                file_path=&#39;data&#39;
+                                )
+            print(file_status)
+
+        &gt;&gt;&gt; # upload all files whose name start with &#39;cust*&#39; from specified folder to specified blob
+        &gt;&gt;&gt; file_status=client.upload_file(
+            container_name=&#39;rawdata&#39;,
+            blob_name=&#39;raw&#39;,
+            all_files=True,
+            file_path=&#39;data&#39;,
+            file_regex=&#39;cust*&#39;
+            )
+            print(file_status)
+
+    &#34;&#34;&#34;
+    full_path = os.path.join(os.getcwd(),file_path)
+    try:
+        file_status=[]
+        if all_files:
+            files=os.listdir(full_path)
+            files=utils._filter_file(file_regex=file_regex,file_list=files)
+            print(f&#39;Uploading {len(files)} files !!&#39;)
+
+            flag=False
+            count=0
+            if len(files)==0:
+                raise EmptyFolderError(&#39;Folder does not contain any files.&#39;)
+            else:
+                for file in files:
+                    count=count+1
+                    print(f&#39;{count}/{len(files)} done.&#39;,end=&#39;\r&#39;)
+
+                    # get the file size
+                    file_stats = os.stat(file_path+&#39;/&#39;+file)
+                    file_size=round(file_stats.st_size / (1024 * 1024),2)
+
+                    # get blob client and upload file
+                    blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file}&#34;)
+                    result=self._upload_file_chunks(blob_client,full_path,file)
+
+                    # append extra info in result dict
+                    result[&#39;File Name&#39;]=file
+                    result[&#39;Upload Timestamp&#39;]=currentTime
+                    result[&#39;File Size(MB)&#39;]=file_size
+                    file_status.append(result)
+
+            print(f&#39;{len(files)} files uploaded to container: {container_name} successfully&#39;)
+        else:
+            # get the file size
+            file_stats = os.stat(file_path+&#39;/&#39;+file_name)
+            file_size=round(file_stats.st_size / (1024 * 1024),2)
+
+            # get client and uplaod file
+            blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file_name}&#34;)
+            result=self._upload_file_chunks(blob_client,full_path,file_name)
+
+            result[&#39;File Name&#39;]=file_name
+            result[&#39;Upload Timestamp&#39;]=currentTime
+            result[&#39;File Size(MB)&#39;]=file_size
+            file_status.append(result)
+            print(f&#39;{file_name} file uploaded to container: {container_name} successfully&#39;)
+
+        return file_status
+    except Exception as e:
+        message=f&#39;Error while uploading the file. {e}&#39;
+        raise UploadFileError(message)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="azure_strg_utils.azure_strg_utils.AzureStorageUtils" href="#azure_strg_utils.azure_strg_utils.AzureStorageUtils">AzureStorageUtils</a></code></h4>
+<ul class="">
+<li><code><a title="azure_strg_utils.azure_strg_utils.AzureStorageUtils.conditional_filter" href="#azure_strg_utils.azure_strg_utils.AzureStorageUtils.conditional_filter">conditional_filter</a></code></li>
+<li><code><a title="azure_strg_utils.azure_strg_utils.AzureStorageUtils.conditional_operation" href="#azure_strg_utils.azure_strg_utils.AzureStorageUtils.conditional_operation">conditional_operation</a></code></li>
+<li><code><a title="azure_strg_utils.azure_strg_utils.AzureStorageUtils.copy_blob" href="#azure_strg_utils.azure_strg_utils.AzureStorageUtils.copy_blob">copy_blob</a></code></li>
+<li><code><a title="azure_strg_utils.azure_strg_utils.AzureStorageUtils.create_container" href="#azure_strg_utils.azure_strg_utils.AzureStorageUtils.create_container">create_container</a></code></li>
+<li><code><a title="azure_strg_utils.azure_strg_utils.AzureStorageUtils.delete_container" href="#azure_strg_utils.azure_strg_utils.AzureStorageUtils.delete_container">delete_container</a></code></li>
+<li><code><a title="azure_strg_utils.azure_strg_utils.AzureStorageUtils.delete_file" href="#azure_strg_utils.azure_strg_utils.AzureStorageUtils.delete_file">delete_file</a></code></li>
+<li><code><a title="azure_strg_utils.azure_strg_utils.AzureStorageUtils.download_file" href="#azure_strg_utils.azure_strg_utils.AzureStorageUtils.download_file">download_file</a></code></li>
+<li><code><a title="azure_strg_utils.azure_strg_utils.AzureStorageUtils.list_blobs" href="#azure_strg_utils.azure_strg_utils.AzureStorageUtils.list_blobs">list_blobs</a></code></li>
+<li><code><a title="azure_strg_utils.azure_strg_utils.AzureStorageUtils.list_container" href="#azure_strg_utils.azure_strg_utils.AzureStorageUtils.list_container">list_container</a></code></li>
+<li><code><a title="azure_strg_utils.azure_strg_utils.AzureStorageUtils.list_files" href="#azure_strg_utils.azure_strg_utils.AzureStorageUtils.list_files">list_files</a></code></li>
+<li><code><a title="azure_strg_utils.azure_strg_utils.AzureStorageUtils.upload_dataframe" href="#azure_strg_utils.azure_strg_utils.AzureStorageUtils.upload_dataframe">upload_dataframe</a></code></li>
+<li><code><a title="azure_strg_utils.azure_strg_utils.AzureStorageUtils.upload_file" href="#azure_strg_utils.azure_strg_utils.AzureStorageUtils.upload_file">upload_file</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

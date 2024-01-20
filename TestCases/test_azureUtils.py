@@ -77,9 +77,9 @@ def test_upload_file_single_file(client, capsys):
 
     # Check if the printed message is correct
     captured = capsys.readouterr()
-    expected_message = f'{file_name} uploaded to container: {container_name} successfully\n'
-    assert captured.out == expected_message,' File upload failed'
-    assert result==True
+    expected_message = f'{file_name} file uploaded to container: {container_name} successfully'
+    assert expected_message in str(captured.out),'File upload failed'
+    assert type(result)==list
 
 def test_upload_file_all_file(client, capsys):
     # Test uploading a single file and assert the printed message
@@ -88,7 +88,10 @@ def test_upload_file_all_file(client, capsys):
     path = 'test/raw'
 
     result=client.upload_file(container_name=container_name,blob_name=blob_name,all_files=True,file_path=path)
-    assert result==True,' File upload failed'
+    captured = capsys.readouterr()
+    expected_message = 'files uploaded to container'
+    assert expected_message in str(captured.out),'File upload failed'
+    assert type(result)==list,' File upload failed'
 
 def test_upload_file_nonexistent_file(client, capsys):
     # Test uploading a non-existent file and assert the printed message
@@ -134,7 +137,7 @@ def test_conditional_filter(client):
     container_name = "rawdata"
     blob_name = "test"
     creation_date='2023-12-01'
-    files=client._conditional_filter(container_name, blob_name, creation_date, comparison='less_than')
+    files=client.conditional_filter(container_name, blob_name, creation_date, comparison='less_than')
     assert type(files)==list
 
 

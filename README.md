@@ -9,7 +9,7 @@ The package facilitates interaction with Azure storage accounts, enabling the ex
 
 ## Installation
 
-Use the package manager `pip` to install azure_strg_utils.
+Use the package manager `pip` to install azure-strg-utils.
 
 ```bash
 pip install azure-strg-utils
@@ -34,6 +34,14 @@ pip install azure-strg-utils
     * **Delete Single File from Blob**: Removes a specific file from a blob in a container.
     * **Delete Specific File(s) Using Regex**: Deletes files matching a specific pattern from a blob.
     * **Delete Single or All Containers**: Deletes a particular container or all containers within the storage account.
+
+* **Copy Operations**:
+    * **Copy Single File from Blob**: Copy single file from one containee to another container.
+    * **Copy Specific File(s) Using Regex**: Copy all files matching a specific pattern from a blob.
+    * **Copy All Files**: Copy all files present inside a blob in source containers to another blob.
+
+* **Upload Dataframe**:
+    * **Save dataframe in blob**: Save pandas Dataframe to a blob in specific format. Curently supported format are XML,JSON and CSV.
 
 * **File Regex Operations**:
 Apply File Regex: Allows operations such as download, deletion, or upload based on files that match a specific pattern within a blob.
