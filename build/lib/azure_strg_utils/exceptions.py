@@ -30,7 +30,7 @@ class EmptyColumnListError(CustomError):
 
 class EmptyFolderError(CustomError):
     """
-    Raised when an empty column list is passed to the class
+    Raised when an empty folder is passed to the class
     """
 
 
@@ -47,5 +47,10 @@ class DeleteFileError(CustomError):
 
 class ConnectionError(CustomError):
     """
-    Raised when an error occurs during file deletion
+    Raised when an error occurs during storage connection
+    """
+
+class ConditionalOperationError(CustomError):
+    """
+    Raised when an error occurs during conditional operation
     """

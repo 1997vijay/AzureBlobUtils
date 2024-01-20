@@ -6,6 +6,7 @@ setup.py
 azure_strg_utils/__init__.py
 azure_strg_utils/azure_strg_utils.py
 azure_strg_utils/exceptions.py
+azure_strg_utils/utils.py
 azure_strg_utils/version.py
 azure_strg_utils.egg-info/PKG-INFO
 azure_strg_utils.egg-info/SOURCES.txt
