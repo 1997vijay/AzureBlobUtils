@@ -1,5 +1,5 @@
 # AzureStorageUtils
-[![PyPI version](https://badge.fury.io/py/azure_strg_utils.svg)](https://badge.fury.io/py/azure-strg-utils/0.1)
+[![PyPI version](https://badge.fury.io/py/azure_strg_utils.svg)](https://badge.fury.io/py/azure-strg-utils/0.1.1)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python Versions](https://img.shields.io/pypi/pyversions/azure_strg_utils.svg)](https://pypi.org/project/azure_strg_utils)
 

@@ -447,7 +447,6 @@ class AzureStorageUtils:
             if all_files:
                 file_list=self.list_files(container_name=container_name,blob_name=blob_name)
                 file_list=utils._filter_file(file_regex=file_regex,file_list=file_list)
-                print(file_list)
                 for file in file_list:
                     blob_client=self._client.get_blob_client(container=container_name,blob=f"{blob_name}/{file}")
                     blob_client.delete_blob(delete_snapshots='include')
