@@ -165,7 +165,7 @@ class AzureStorageUtils:
             - List of blobs/folders.
 
         \n Example:
-            &gt;&gt;&gt; container = client.list_blobs()
+            &gt;&gt;&gt; container = client.list_blobs(container_name=&#39;test&#39;)
         &#34;&#34;&#34;
 
         folder_list=[]
@@ -516,7 +516,6 @@ class AzureStorageUtils:
             if all_files:
                 file_list=self.list_files(container_name=container_name,blob_name=blob_name)
                 file_list=utils._filter_file(file_regex=file_regex,file_list=file_list)
-                print(file_list)
                 for file in file_list:
                     blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file}&#34;)
                     blob_client.delete_blob(delete_snapshots=&#39;include&#39;)
@@ -990,7 +989,7 @@ class AzureStorageUtils:
             - List of blobs/folders.
 
         \n Example:
-            &gt;&gt;&gt; container = client.list_blobs()
+            &gt;&gt;&gt; container = client.list_blobs(container_name=&#39;test&#39;)
         &#34;&#34;&#34;
 
         folder_list=[]
@@ -1341,7 +1340,6 @@ class AzureStorageUtils:
             if all_files:
                 file_list=self.list_files(container_name=container_name,blob_name=blob_name)
                 file_list=utils._filter_file(file_regex=file_regex,file_list=file_list)
-                print(file_list)
                 for file in file_list:
                     blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file}&#34;)
                     blob_client.delete_blob(delete_snapshots=&#39;include&#39;)
@@ -2396,7 +2394,6 @@ Possible values: 'less_than', 'less_than_or_equal',
         if all_files:
             file_list=self.list_files(container_name=container_name,blob_name=blob_name)
             file_list=utils._filter_file(file_regex=file_regex,file_list=file_list)
-            print(file_list)
             for file in file_list:
                 blob_client=self._client.get_blob_client(container=container_name,blob=f&#34;{blob_name}/{file}&#34;)
                 blob_client.delete_blob(delete_snapshots=&#39;include&#39;)
@@ -2619,7 +2616,7 @@ Possible values: 'less_than', 'less_than_or_equal',
 <li>List of blobs/folders.</li>
 </ul>
 <h2 id="example">Example</h2>
-<pre><code class="language-python-repl">&gt;&gt;&gt; container = client.list_blobs()
+<pre><code class="language-python-repl">&gt;&gt;&gt; container = client.list_blobs(container_name='test')
 </code></pre></div>
 <details class="source">
 <summary>
@@ -2636,7 +2633,7 @@ Possible values: 'less_than', 'less_than_or_equal',
         - List of blobs/folders.
 
     \n Example:
-        &gt;&gt;&gt; container = client.list_blobs()
+        &gt;&gt;&gt; container = client.list_blobs(container_name=&#39;test&#39;)
     &#34;&#34;&#34;
 
     folder_list=[]

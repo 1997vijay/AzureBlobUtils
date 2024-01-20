@@ -96,7 +96,7 @@ class AzureStorageUtils:
             - List of blobs/folders.
 
         \n Example:
-            >>> container = client.list_blobs()
+            >>> container = client.list_blobs(container_name='test')
         """
 
         folder_list=[]
