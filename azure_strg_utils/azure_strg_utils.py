@@ -325,12 +325,13 @@ class AzureStorageUtils:
 
         \n Example:
             >>> # upload single file 'cars_new.csv' from specified path file_path 'data' into blob/folder 'raw' 
-            >>> client.upload_file(
+            >>> file_status=client.upload_file(
                 container_name='rawdata',
                 blob_name='test',
                 file_name='cars_new.csv',
                 file_path='data'
                 )
+                print(file_status)
 
             >>> # upload all file present inside data folder
             >>> file_status=client.upload_file(
@@ -488,12 +489,13 @@ class AzureStorageUtils:
 
         \n Example:
             >>> # get all files which have creation date greater than '2023-12-15'
-            >>> client.conditional_filter(
+            >>> file_list=client.conditional_filter(
                 container_name='rawdata',
                 blob_name='raw',
                 creation_date='2023-12-15',
                 comparison='greater_than'
                 )
+                print(file_list)
 
         """
         try:
