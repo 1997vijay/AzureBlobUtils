@@ -5,6 +5,9 @@
 
 The package facilitates interaction with Azure storage accounts, enabling the execution of a wide range of operations on these accounts.
 
+## Documentation
+https://1997vijay.github.io/AzureStorageUtils/
+
 ## Installation
 
 Use the package manager `pip` to install azure-strg-utils.
